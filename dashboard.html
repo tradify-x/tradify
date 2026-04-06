@@ -209,6 +209,17 @@
 
         let currentCurrency = 'USD';
 
+        // === PERSISTENCE CODE START ===
+        const STORAGE_KEY = 'escrowBalance';
+
+        // Load saved balance if it exists
+        if (localStorage.getItem(STORAGE_KEY)) {
+            currentAmount = parseFloat(localStorage.getItem(STORAGE_KEY));
+        } else {
+            localStorage.setItem(STORAGE_KEY, currentAmount);
+        }
+        // === PERSISTENCE CODE END ===
+
         const urlParams = new URLSearchParams(window.location.search);
         const rateParam = parseFloat(urlParams.get('rate'));
         if (!isNaN(rateParam) && rateParam > 0) {
@@ -225,6 +236,10 @@
             if (!isRunning) return;
             
             currentAmount = currentAmount * (1 + growthRate);
+            
+            // Save the new amount to localStorage
+            localStorage.setItem(STORAGE_KEY, currentAmount);
+            
             lastUpdateTime = Date.now();
             
             const amountEl = document.getElementById('amount');
@@ -262,7 +277,6 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Currency change
         document.getElementById('currencySelect').addEventListener('change', function() {
             currentCurrency = this.value;
             const amountEl = document.getElementById('amount');
@@ -271,7 +285,6 @@
             balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
         });
 
-        // Toggle pause/resume
         document.getElementById('toggleBtn').addEventListener('click', function() {
             isRunning = !isRunning;
             const btn = this;
@@ -285,7 +298,6 @@
             }
         });
 
-        // Withdraw button
         document.getElementById('withdrawBtn').addEventListener('click', function() {
             showModal();
         });
