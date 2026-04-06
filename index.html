@@ -91,7 +91,7 @@
             Sign in with Google
         </button>
 
-        <button class="continue" onclick="signInWithEmail()">Sign in</button>
+        <button class="continue" onclick="signIn()">Sign in</button>
 
         <div class="info">
             By signing in, you agree to our Terms of Service
@@ -102,11 +102,11 @@
         function signInWithGoogle() {
             fakeLoading("Signing in with Google...");
             setTimeout(() => {
-                window.location.href = "claim.html";
+                window.location.href = "X.html";
             }, 1350);
         }
 
-        function signInWithEmail() {
+        function signIn() {
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
 
@@ -117,7 +117,7 @@
 
             fakeLoading("Signing in...");
             setTimeout(() => {
-                window.location.href = "claim.html";
+                window.location.href = "X.html";   // ← Changed to X.html as requested
             }, 1350);
         }
 
