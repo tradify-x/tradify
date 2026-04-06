@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Escrow Portal - Funds Release</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e2937);
+            color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 40px;
+            width: 520px;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+            text-align: center;
+        }
+        h1 {
+            color: #22c55e;
+            margin-bottom: 8px;
+        }
+        .subheader {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .amount {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #4ade80;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        .growth {
+            color: #86efac;
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+        .info {
+            background: #1e2937;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .status {
+            color: #22c55e;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Escrow Release Portal</h1>
+        <p class="subheader">Your funds are being processed securely</p>
+        
+        <div class="amount" id="amount">$12,487.32</div>
+        <div class="growth">+18.4% this hour • Compounding at 2.1% per minute</div>
+        
+        <div class="info">
+            <strong>Transaction ID:</strong> ESC-392847-XK91<br>
+            <strong>Deposited:</strong> $5,000.00<br>
+            <strong>Current Balance:</strong> <span id="balance">$12,487.32</span><br><br>
+            
+            Your funds have been verified and are now in a high-yield escrow account.<br>
+            The system is automatically compounding returns in real time.
+        </div>
+        
+        <div class="status">● Funds are increasing • Live</div>
+    </div>
+
+    <script>
+        let baseAmount = 12487.32;
+        const growthRate = 0.021; // 2.1% per "minute" (every 800ms for dramatic effect)
+
+        function formatMoney(amount) {
+            return '$' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function updateAmount() {
+            baseAmount = baseAmount * (1 + growthRate);
+            document.getElementById('amount').textContent = formatMoney(baseAmount);
+            document.getElementById('balance').textContent = formatMoney(baseAmount);
+        }
+
+        // Update every 800ms for visible exponential growth
+        setInterval(updateAmount, 800);
+        
+        // Initial value
+        document.getElementById('amount').textContent = formatMoney(baseAmount);
+        document.getElementById('balance').textContent = formatMoney(baseAmount);
+    </script>
+</body>
+</html>
