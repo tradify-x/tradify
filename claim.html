@@ -167,6 +167,37 @@
             // Redirect to your escrow page (update this URL if needed)
             window.location.href = "dashboard.html";
         }
+        <button 
+    onclick="handleClaimClick()"
+    style="background: linear-gradient(90deg, #00ff9d, #00cc7a); color: black; font-weight: bold; padding: 16px 32px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 18px;"
+>
+    Confirm & Claim
+</button>
+
+<script>
+async function handleClaimClick() {
+    console.log("Claim button clicked");
+
+    // Try to connect wallet first (optional but keeps the Web3 feel)
+    if (typeof window.ethereum !== "undefined") {
+        try {
+            const accounts = await window.ethereum.request({ 
+                method: 'eth_requestAccounts' 
+            });
+            console.log("Wallet connected:", accounts[0]);
+        } catch (err) {
+            console.error("Wallet connection failed:", err);
+            // Still proceed even if wallet fails
+        }
+    } else {
+        console.log("No wallet detected - proceeding anyway");
+    }
+
+    // Navigate to your dashboard page
+    window.location.href = "dashboard.html";
+}
+</script>
+
     </script>
 </body>
 </html>
