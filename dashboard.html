@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Escrow Portal - Funds Release</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
+        
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e2937);
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a0f1c, #1a2338);
             color: #e2e8f0;
             margin: 0;
             padding: 0;
@@ -17,92 +19,290 @@
             justify-content: center;
         }
         .container {
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(15, 23, 42, 0.97);
             border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 40px;
-            width: 520px;
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 560px;
+            box-shadow: 0 30px 70px -15px rgb(0 0 0 / 0.5);
             text-align: center;
         }
         h1 {
             color: #22c55e;
-            margin-bottom: 8px;
+            margin: 0 0 6px 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.1rem;
         }
         .subheader {
             color: #64748b;
-            font-size: 1.1rem;
-            margin-bottom: 30px;
+            font-size: 1.05rem;
+            margin-bottom: 24px;
         }
         .amount {
-            font-size: 3.2rem;
+            font-size: 3.6rem;
             font-weight: 700;
             color: #4ade80;
-            margin: 20px 0;
-            font-family: monospace;
+            font-family: 'Space Grotesk', monospace;
+            margin: 12px 0 8px 0;
+            transition: all 0.3s ease;
         }
         .growth {
             color: #86efac;
-            font-size: 1.3rem;
-            margin-bottom: 30px;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            font-weight: 500;
         }
         .info {
-            background: #1e2937;
-            border-radius: 8px;
-            padding: 20px;
+            background: #172033;
+            border-radius: 12px;
+            padding: 24px;
             text-align: left;
-            margin-top: 20px;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.97rem;
+            line-height: 1.65;
+            border: 1px solid #334155;
         }
         .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             color: #22c55e;
-            display: inline-block;
-            margin-top: 15px;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 6px 16px;
+            border-radius: 9999px;
             font-weight: 600;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        .controls {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        button, select {
+            padding: 10px 20px;
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover, select:hover {
+            background: #475569;
+        }
+        button.pause {
+            background: #ef4444;
+        }
+        button.withdraw {
+            background: #22c55e;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        button.withdraw:hover {
+            background: #4ade80;
+        }
+        .last-update {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #1e2937;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 32px;
+            width: 380px;
+            text-align: center;
+        }
+        .modal-content h3 {
+            color: #f87171;
+            margin: 0 0 16px 0;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Escrow Release Portal</h1>
-        <p class="subheader">Your funds are being processed securely</p>
+        <p class="subheader">High-Yield Escrow • Real-time Compounding</p>
         
         <div class="amount" id="amount">$12,487.32</div>
-        <div class="growth">+18.4% this hour • Compounding at 2.1% per minute</div>
+        <div class="growth" id="growth">+18.4% this hour • Compounding at <span id="rateDisplay">2.1</span>% per minute</div>
         
         <div class="info">
             <strong>Transaction ID:</strong> ESC-392847-XK91<br>
-            <strong>Deposited:</strong> $5,000.00<br>
+            <strong>Original Deposit:</strong> $5,000.00<br>
             <strong>Current Balance:</strong> <span id="balance">$12,487.32</span><br><br>
-            
-            Your funds have been verified and are now in a high-yield escrow account.<br>
-            The system is automatically compounding returns in real time.
+            Your funds have cleared verification and are now held in a secured high-yield escrow account. 
+            Returns are being automatically compounded in real time.
         </div>
         
-        <div class="status">● Funds are increasing • Live</div>
+        <div class="status">
+            <span class="dot"></span>
+            Funds are increasing • Live
+        </div>
+
+        <div class="controls">
+            <select id="currencySelect">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="BTC">BTC</option>
+            </select>
+            <button id="toggleBtn">Pause Growth</button>
+            <button id="withdrawBtn" class="withdraw">Withdraw Funds</button>
+        </div>
+
+        <div class="last-update">
+            Last updated: <span id="lastUpdate">just now</span>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3>Withdrawal Restricted</h3>
+            <p style="color:#e2e8f0; margin: 16px 0 24px 0; line-height: 1.5;">
+                Minimum withdrawal amount is <strong>$2,000</strong>.<br><br>
+                Your current balance exceeds the minimum, but this escrow requires manual approval for any release.<br><br>
+                Please contact support to proceed.
+            </p>
+            <button onclick="closeModal()" style="background:#334155; padding:10px 28px;">Close</button>
+        </div>
     </div>
 
     <script>
-        let baseAmount = 12487.32;
-        const growthRate = 0.021; // 2.1% per "minute" (every 800ms for dramatic effect)
+        let currentAmount = 12487.32;
+        let growthRate = 0.021;
+        let isRunning = true;
+        let intervalId = null;
+        let lastUpdateTime = Date.now();
 
-        function formatMoney(amount) {
-            return '$' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        const currencies = {
+            USD: { symbol: '$', rate: 1, decimals: 2 },
+            EUR: { symbol: '€', rate: 0.92, decimals: 2 },
+            GBP: { symbol: '£', rate: 0.79, decimals: 2 },
+            BTC: { symbol: '₿', rate: 0.00021, decimals: 6 }
+        };
+
+        let currentCurrency = 'USD';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const rateParam = parseFloat(urlParams.get('rate'));
+        if (!isNaN(rateParam) && rateParam > 0) {
+            growthRate = rateParam / 100;
+        }
+
+        function formatMoney(amount, currency) {
+            const config = currencies[currency];
+            const converted = amount * config.rate;
+            return config.symbol + converted.toFixed(config.decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
         function updateAmount() {
-            baseAmount = baseAmount * (1 + growthRate);
-            document.getElementById('amount').textContent = formatMoney(baseAmount);
-            document.getElementById('balance').textContent = formatMoney(baseAmount);
+            if (!isRunning) return;
+            
+            currentAmount = currentAmount * (1 + growthRate);
+            lastUpdateTime = Date.now();
+            
+            const amountEl = document.getElementById('amount');
+            const balanceEl = document.getElementById('balance');
+            
+            amountEl.textContent = formatMoney(currentAmount, currentCurrency);
+            balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
+            
+            amountEl.style.transform = 'scale(1.04)';
+            amountEl.style.color = '#86efac';
+            setTimeout(() => {
+                amountEl.style.transform = 'scale(1)';
+                amountEl.style.color = '#4ade80';
+            }, 180);
+            
+            updateLastUpdateTime();
         }
 
-        // Update every 800ms for visible exponential growth
-        setInterval(updateAmount, 800);
-        
-        // Initial value
-        document.getElementById('amount').textContent = formatMoney(baseAmount);
-        document.getElementById('balance').textContent = formatMoney(baseAmount);
+        function updateLastUpdateTime() {
+            const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
+            const display = secondsAgo < 5 ? 'just now' : secondsAgo + ' seconds ago';
+            document.getElementById('lastUpdate').textContent = display;
+        }
+
+        function startGrowth() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(updateAmount, 650);
+        }
+
+        function showModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Currency change
+        document.getElementById('currencySelect').addEventListener('change', function() {
+            currentCurrency = this.value;
+            const amountEl = document.getElementById('amount');
+            const balanceEl = document.getElementById('balance');
+            amountEl.textContent = formatMoney(currentAmount, currentCurrency);
+            balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
+        });
+
+        // Toggle pause/resume
+        document.getElementById('toggleBtn').addEventListener('click', function() {
+            isRunning = !isRunning;
+            const btn = this;
+            if (isRunning) {
+                btn.textContent = 'Pause Growth';
+                btn.classList.remove('pause');
+                startGrowth();
+            } else {
+                btn.textContent = 'Resume Growth';
+                btn.classList.add('pause');
+            }
+        });
+
+        // Withdraw button
+        document.getElementById('withdrawBtn').addEventListener('click', function() {
+            showModal();
+        });
+
+        function init() {
+            const amountEl = document.getElementById('amount');
+            const balanceEl = document.getElementById('balance');
+            
+            amountEl.textContent = formatMoney(currentAmount, currentCurrency);
+            balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
+            document.getElementById('rateDisplay').textContent = (growthRate * 100).toFixed(1);
+            
+            startGrowth();
+            setInterval(updateLastUpdateTime, 1000);
+        }
+
+        init();
     </script>
 </body>
 </html>
