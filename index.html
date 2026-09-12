@@ -4,103 +4,282 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeElite - Sign in</title>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0a0f1c, #1a2338);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.10), transparent 35%),
+                linear-gradient(135deg, #070c16, #111a2b 55%, #0a101d);
             color: #e2e8f0;
-            margin: 0; padding: 0;
-            height: 100vh;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
+
         .container {
-            background: rgba(15, 23, 42, 0.98);
-            border: 1px solid #334155;
-            border-radius: 20px;
-            padding: 40px 30px;
-            width: 420px;
+            background: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(71, 85, 105, 0.65);
+            border-radius: 22px;
+            padding: 40px 30px 32px;
+            width: 100%;
+            max-width: 420px;
             text-align: center;
-            box-shadow: 0 25px 60px -10px rgb(0 0 0 / 0.6);
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.55),
+                0 0 35px rgba(34, 197, 94, 0.04);
+            backdrop-filter: blur(14px);
         }
+
         .logo {
-            width: 64px; height: 64px; background: #22c55e; color: #0f172a;
-            border-radius: 50%; display: inline-flex; align-items: center;
-            justify-content: center; font-size: 32px; font-weight: 700; margin-bottom: 24px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+            color: #07120c;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 22px;
+            box-shadow: 0 0 28px rgba(34, 197, 94, 0.20);
         }
-        h1 { font-size: 24px; margin: 0 0 8px 0; color: white; }
-        p { color: #94a3b8; margin-bottom: 28px; font-size: 15px; }
+
+        h1 {
+            font-size: 24px;
+            line-height: 1.3;
+            margin: 0 0 9px;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        p {
+            color: #94a3b8;
+            margin: 0 0 27px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .field {
+            text-align: left;
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 7px;
+        }
 
         input {
             width: 100%;
-            padding: 14px 16px;
-            background: #1e2937;
+            padding: 14px 15px;
+            background: rgba(30, 41, 55, 0.9);
             border: 1px solid #475569;
-            border-radius: 10px;
+            border-radius: 11px;
             color: #e2e8f0;
             font-size: 15px;
-            margin-bottom: 14px;
-            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
         input:focus {
             outline: none;
             border-color: #22c55e;
+            background: #1e293b;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.10);
         }
 
         .gmail-btn {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            background: white; color: #1f2937; border: none; border-radius: 12px;
-            padding: 14px 24px; font-size: 16px; font-weight: 600; cursor: pointer;
-            width: 100%; margin: 20px 0 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 11px;
+            background: #ffffff;
+            color: #1f2937;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0 13px;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
         }
-        .gmail-btn:hover { background: #f1f5f9; }
+
+        .gmail-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.20);
+        }
+
+        .google-icon {
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 17px;
+        }
 
         button.continue {
-            background: #22c55e; 
-            color: #0f172a; 
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #06110a;
             font-weight: 700;
-            padding: 15px; 
-            width: 100%; 
-            border: none; 
-            border-radius: 12px;
-            font-size: 16px; 
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 11px;
+            font-size: 15px;
             cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+        }
+
+        button.continue:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+            box-shadow: 0 8px 22px rgba(34, 197, 94, 0.20);
+        }
+
+        button:active {
+            transform: translateY(0);
         }
 
         .info {
-            margin-top: 24px;
-            font-size: 13px;
+            margin-top: 22px;
+            font-size: 12px;
+            line-height: 1.6;
             color: #64748b;
+        }
+
+        .demo-note {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #475569;
+        }
+
+        .loading {
+            padding: 75px 20px;
+            color: #94a3b8;
+        }
+
+        .loading-message {
+            margin-bottom: 24px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .spinner {
+            width: 46px;
+            height: 46px;
+            border: 4px solid #334155;
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: spin 0.9s linear infinite;
+            box-shadow: 0 0 18px rgba(34, 197, 94, 0.08);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 34px 22px 28px;
+                border-radius: 19px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 26px;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="logo">TE</div>
-        <h1>Sign in to TradeElite</h1>
-        <p>Use your Gmail to claim your $ELITE airdrop</p>
 
-        <input type="email" id="email" placeholder="Email address" value="user@gmail.com">
-        <input type="password" id="password" placeholder="Password">
+<body>
+
+    <div class="container">
+
+        <div class="logo">TE</div>
+
+        <h1>Sign in to TradeElite</h1>
+
+        <p>
+            Use your account details to continue to the
+            <strong style="color:#22c55e;">$ELITE</strong> airdrop demonstration.
+        </p>
+
+        <div class="field">
+            <label for="email">Email address</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Email address"
+                value="user@gmail.com"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="field">
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                autocomplete="off"
+            >
+        </div>
 
         <button class="gmail-btn" onclick="signInWithGoogle()">
-            
-            Sign in with Google
+            <span class="google-icon">G</span>
+            <span>Continue with Google</span>
         </button>
 
-        <button class="continue" onclick="signIn()">Sign in</button>
+        <button class="continue" onclick="signIn()">
+            Sign in
+        </button>
 
         <div class="info">
-            By signing in, you agree to our Terms of Service
+            This is a demonstration page. No login credentials are transmitted or stored.
         </div>
+
+        <div class="demo-note">
+            TradeElite • $ELITE Demo
+        </div>
+
     </div>
 
     <script>
         function signInWithGoogle() {
-            fakeLoading("Signing in with Google...");
+            fakeLoading("Continuing with Google...");
+
             setTimeout(() => {
                 window.location.href = "X.html";
             }, 1350);
@@ -116,25 +295,23 @@
             }
 
             fakeLoading("Signing in...");
+
             setTimeout(() => {
-                window.location.href = "X.html";   // ← Changed to X.html as requested
+                window.location.href = "X.html";
             }, 1350);
         }
 
         function fakeLoading(message) {
             const container = document.querySelector('.container');
+
             container.innerHTML = `
-                <div style="padding: 80px 20px; color: #94a3b8;">
-                    <div style="margin-bottom: 24px; font-size: 18px;">${message}</div>
-                    <div style="width: 48px; height: 48px; border: 5px solid #334155; 
-                                border-top: 5px solid #22c55e; border-radius: 50%; 
-                                margin: 0 auto; animation: spin 1s linear infinite;"></div>
+                <div class="loading">
+                    <div class="loading-message">${message}</div>
+                    <div class="spinner"></div>
                 </div>
-                <style>
-                    @keyframes spin { to { transform: rotate(360deg); } }
-                </style>
             `;
         }
     </script>
+
 </body>
 </html>
