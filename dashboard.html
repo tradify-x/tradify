@@ -1,320 +1,1278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Escrow Portal - Funds Release</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
-        
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0a0f1c, #1a2338);
-            color: #e2e8f0;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            background: rgba(15, 23, 42, 0.97);
-            border: 1px solid #334155;
-            border-radius: 20px;
-            padding: 48px 40px;
-            width: 560px;
-            box-shadow: 0 30px 70px -15px rgb(0 0 0 / 0.5);
-            text-align: center;
-        }
-        h1 {
-            color: #22c55e;
-            margin: 0 0 6px 0;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.1rem;
-        }
-        .subheader {
-            color: #64748b;
-            font-size: 1.05rem;
-            margin-bottom: 24px;
-        }
-        .amount {
-            font-size: 3.6rem;
-            font-weight: 700;
-            color: #4ade80;
-            font-family: 'Space Grotesk', monospace;
-            margin: 12px 0 8px 0;
-            transition: all 0.3s ease;
-        }
-        .growth {
-            color: #86efac;
-            font-size: 1.15rem;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        .info {
-            background: #172033;
-            border-radius: 12px;
-            padding: 24px;
-            text-align: left;
-            font-size: 0.97rem;
-            line-height: 1.65;
-            border: 1px solid #334155;
-        }
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #22c55e;
-            background: rgba(34, 197, 94, 0.1);
-            padding: 6px 16px;
-            border-radius: 9999px;
-            font-weight: 600;
-            margin-top: 20px;
-            font-size: 0.95rem;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        .controls {
-            margin-top: 24px;
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        button, select {
-            padding: 10px 20px;
-            background: #334155;
-            color: #e2e8f0;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        button:hover, select:hover {
-            background: #475569;
-        }
-        button.pause {
-            background: #ef4444;
-        }
-        button.withdraw {
-            background: #22c55e;
-            color: #0f172a;
-            font-weight: 700;
-        }
-        button.withdraw:hover {
-            background: #4ade80;
-        }
-        .last-update {
-            margin-top: 16px;
-            font-size: 0.85rem;
-            color: #64748b;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #1e2937;
-            border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 32px;
-            width: 380px;
-            text-align: center;
-        }
-        .modal-content h3 {
-            color: #f87171;
-            margin: 0 0 16px 0;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Portfolio — Demo</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+.app {
+    width: 100%;
+    max-width: 520px;
+    min-height: 100vh;
+    margin: auto;
+    background: #000;
+    padding: 20px 18px 40px;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.menu {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.portfolio-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.icon {
+    color: #aaa;
+    font-size: 21px;
+    cursor: pointer;
+}
+
+/* DEMO LABEL */
+.demo-label {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #222;
+    padding: 5px 9px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+
+/* BALANCE */
+.balance-label {
+    color: #8b8b8b;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.balance {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 43px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    color: #42e66b;
+    transition: transform .2s ease;
+}
+
+.balance.bump {
+    transform: scale(1.025);
+}
+
+.change-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 9px;
+}
+
+.change {
+    color: #42e66b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.change-percent {
+    background: #123b20;
+    color: #4bea70;
+    border-radius: 7px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* CHART TABS */
+.chart-tabs {
+    display: flex;
+    gap: 25px;
+    margin-top: 35px;
+    border-bottom: 1px solid #191919;
+}
+
+.chart-tab {
+    color: #666;
+    font-size: 13px;
+    padding-bottom: 12px;
+    cursor: pointer;
+}
+
+.chart-tab.active {
+    color: #fff;
+    border-bottom: 2px solid #42e66b;
+}
+
+/* CHART */
+.chart-container {
+    height: 230px;
+    margin-top: 20px;
+    position: relative;
+}
+
+#portfolioChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* TIME SELECTOR */
+.periods {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    background: #0b0b0b;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.period {
+    color: #777;
+    border-radius: 8px;
+    padding: 7px 9px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.period.active {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+/* ASSETS */
+.assets-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 38px;
+    margin-bottom: 15px;
+}
+
+.assets-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.value-toggle {
+    display: flex;
+    background: #111;
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.toggle {
+    border: 0;
+    background: transparent;
+    color: #666;
+    padding: 6px 9px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.toggle.active {
+    background: #222;
+    color: #fff;
+}
+
+/* ASSET ROW */
+.asset {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #151515;
+}
+
+.asset-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.coin {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #151515;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.coin.btc {
+    color: #f7931a;
+}
+
+.coin.eth {
+    color: #9b8cff;
+}
+
+.coin.sol {
+    color: #48e6a0;
+}
+
+.coin.usdt {
+    color: #26a17b;
+}
+
+.asset-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.asset-price {
+    color: #777;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.asset-right {
+    text-align: right;
+}
+
+.asset-value {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.asset-change {
+    font-size: 11px;
+    color: #42e66b;
+    margin-top: 4px;
+}
+
+/* STATISTICS */
+.statistics {
+    display: none;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: #0d0d0d;
+    border: 1px solid #181818;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    color: #777;
+    font-size: 12px;
+}
+
+.stat-value {
+    margin-top: 6px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* PAUSE BUTTON */
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pause-btn {
+    border: 1px solid #292929;
+    background: #0d0d0d;
+    color: #bbb;
+    padding: 10px 18px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.pause-btn:hover {
+    background: #171717;
+}
+
+/* LIVE */
+.live {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+    color: #555;
+    font-size: 10px;
+}
+
+.live-dot {
+    width: 6px;
+    height: 6px;
+    background: #42e66b;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .35;
+    }
+}
+
+/* MOBILE */
+@media(max-width: 400px) {
+
+    .app {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .balance {
+        font-size: 38px;
+    }
+
+    .period {
+        padding: 7px 6px;
+        font-size: 10px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Escrow Release Portal</h1>
-        <p class="subheader">High-Yield Escrow • Real-time Compounding</p>
-        
-        <div class="amount" id="amount">$60.32</div>
-        <div class="growth" id="growth">+18.4% this hour • Compounding at <span id="rateDisplay">2.1</span>% per minute</div>
-        
-        <div class="info">
-            <strong>Transaction ID:</strong> ESC-392847-XK91<br>
-            <strong>Original Deposit:</strong> $200.00<br>
-            <strong>Current Balance:</strong> <span id="balance">$200.32</span><br><br>
-            Your funds have cleared verification and are now held in a secured high-yield escrow account. 
-            Returns are being automatically compounded in real time.
-        </div>
-        
-        <div class="status">
-            <span class="dot"></span>
-            Funds are increasing • Live
+
+<div class="app">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="menu">☰</div>
+            <div class="portfolio-title">My Main Portfolio</div>
         </div>
 
-        <div class="controls">
-            <select id="currencySelect">
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="BTC">BTC</option>
-            </select>
-            <button id="toggleBtn">Pause Growth</button>
-            <button id="withdrawBtn" class="withdraw">Withdraw Funds</button>
-        </div>
-
-        <div class="last-update">
-            Last updated: <span id="lastUpdate">just now</span>
+        <div class="header-actions">
+            <div class="icon" id="eyeButton">◉</div>
+            <div class="icon">＋</div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <h3>Withdrawal Restricted</h3>
-            <p style="color:#e2e8f0; margin: 16px 0 24px 0; line-height: 1.5;">
-                Minimum withdrawal amount is <strong>$2,000</strong>.<br><br>
-                Your current balance exceeds the minimum, but this escrow requires manual approval for any release.<br><br>
-                Please contact support to proceed.
-            </p>
-            <button onclick="closeModal()" style="background:#334155; padding:10px 28px;">Close</button>
+    <div class="demo-label">Demo Portfolio</div>
+
+    <!-- BALANCE -->
+    <div class="balance-label">
+        Current Balance
+    </div>
+
+    <div class="balance" id="balance">
+        $60.32
+    </div>
+
+    <div class="change-row">
+        <div class="change" id="dailyChange">
+            +18.4% today
+        </div>
+
+        <div class="change-percent">
+            +18.4%
         </div>
     </div>
 
-    <script>
-        let currentAmount = 60.32;
-        let growthRate = 0.0001;
-        let isRunning = true;
-        let intervalId = null;
-        let lastUpdateTime = Date.now();
+    <!-- CHART TABS -->
+    <div class="chart-tabs">
 
-        const currencies = {
-            USD: { symbol: '$', rate: 1, decimals: 2 },
-            EUR: { symbol: '€', rate: 0.92, decimals: 2 },
-            GBP: { symbol: '£', rate: 0.79, decimals: 2 },
-            BTC: { symbol: '₿', rate: 0.00021, decimals: 6 }
-        };
+        <div class="chart-tab active" data-tab="line">
+            Line Chart
+        </div>
 
-        let currentCurrency = 'USD';
+        <div class="chart-tab" data-tab="pie">
+            Pie Chart
+        </div>
 
-        // === PERSISTENCE CODE START ===
-        const STORAGE_KEY = 'escrowBalance';
+        <div class="chart-tab" data-tab="stats">
+            Statistics
+        </div>
 
-        // Load saved balance if it exists
-        if (localStorage.getItem(STORAGE_KEY)) {
-            currentAmount = parseFloat(localStorage.getItem(STORAGE_KEY));
-        } else {
-            localStorage.setItem(STORAGE_KEY, currentAmount);
-        }
-        // === PERSISTENCE CODE END ===
+    </div>
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const rateParam = parseFloat(urlParams.get('rate'));
-        if (!isNaN(rateParam) && rateParam > 0) {
-            growthRate = rateParam / 100;
-        }
+    <!-- LINE CHART -->
+    <div class="chart-container" id="lineSection">
+        <canvas id="portfolioChart"></canvas>
+    </div>
 
-        function formatMoney(amount, currency) {
-            const config = currencies[currency];
-            const converted = amount * config.rate;
-            return config.symbol + converted.toFixed(config.decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+    <!-- PIE CHART -->
+    <div class="chart-container" id="pieSection" style="display:none;">
+        <canvas id="pieChart"></canvas>
+    </div>
 
-        function updateAmount() {
-            if (!isRunning) return;
-            
-            currentAmount = currentAmount * (1 + growthRate);
-            
-            // Save the new amount to localStorage
-            localStorage.setItem(STORAGE_KEY, currentAmount);
-            
-            lastUpdateTime = Date.now();
-            
-            const amountEl = document.getElementById('amount');
-            const balanceEl = document.getElementById('balance');
-            
-            amountEl.textContent = formatMoney(currentAmount, currentCurrency);
-            balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
-            
-            amountEl.style.transform = 'scale(1.04)';
-            amountEl.style.color = '#86efac';
-            setTimeout(() => {
-                amountEl.style.transform = 'scale(1)';
-                amountEl.style.color = '#4ade80';
-            }, 180);
-            
-            updateLastUpdateTime();
-        }
+    <!-- STATISTICS -->
+    <div class="statistics" id="statsSection">
 
-        function updateLastUpdateTime() {
-            const secondsAgo = Math.floor((Date.now() - lastUpdateTime) / 1000);
-            const display = secondsAgo < 5 ? 'just now' : secondsAgo + ' seconds ago';
-            document.getElementById('lastUpdate').textContent = display;
-        }
+        <div class="stat-card">
+            <div class="stat-label">Portfolio Balance</div>
+            <div class="stat-value" id="statBalance">$60.32</div>
+        </div>
 
-        function startGrowth() {
-            if (intervalId) clearInterval(intervalId);
-            intervalId = setInterval(updateAmount, 650);
-        }
+        <div class="stat-card">
+            <div class="stat-label">Today's Change</div>
+            <div class="stat-value" style="color:#42e66b;">
+                +18.4%
+            </div>
+        </div>
 
-        function showModal() {
-            document.getElementById('modal').style.display = 'flex';
-        }
+        <div class="stat-card">
+            <div class="stat-label">Portfolio Status</div>
+            <div class="stat-value">
+                Active
+            </div>
+        </div>
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
+    </div>
 
-        document.getElementById('currencySelect').addEventListener('change', function() {
-            currentCurrency = this.value;
-            const amountEl = document.getElementById('amount');
-            const balanceEl = document.getElementById('balance');
-            amountEl.textContent = formatMoney(currentAmount, currentCurrency);
-            balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
-        });
+    <!-- PERIODS -->
+    <div class="periods">
 
-        document.getElementById('toggleBtn').addEventListener('click', function() {
-            isRunning = !isRunning;
-            const btn = this;
-            if (isRunning) {
-                btn.textContent = 'Pause Growth';
-                btn.classList.remove('pause');
-                startGrowth();
-            } else {
-                btn.textContent = 'Resume Growth';
-                btn.classList.add('pause');
+        <div class="period active" data-period="24h">
+            24h
+        </div>
+
+        <div class="period" data-period="7d">
+            7d
+        </div>
+
+        <div class="period" data-period="30d">
+            30d
+        </div>
+
+        <div class="period" data-period="60d">
+            60d
+        </div>
+
+        <div class="period" data-period="90d">
+            90d
+        </div>
+
+        <div class="period" data-period="all">
+            All
+        </div>
+
+    </div>
+
+    <!-- ASSETS -->
+    <div class="assets-header">
+
+        <div class="assets-title">
+            Your Assets
+        </div>
+
+        <div class="value-toggle">
+            <button class="toggle active" id="dollarToggle">$</button>
+            <button class="toggle" id="percentToggle">%</button>
+        </div>
+
+    </div>
+
+    <!-- BTC -->
+    <div class="asset">
+
+        <div class="asset-left">
+
+            <div class="coin btc">
+                ₿
+            </div>
+
+            <div>
+                <div class="asset-name">
+                    Bitcoin
+                </div>
+
+                <div class="asset-price">
+                    BTC • $67,842.10
+                </div>
+            </div>
+
+        </div>
+
+        <div class="asset-right">
+
+            <div class="asset-value asset-dollar">
+                $24.83
+            </div>
+
+            <div class="asset-value asset-percent" style="display:none;">
+                41.2%
+            </div>
+
+            <div class="asset-change">
+                +5.82%
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ETH -->
+    <div class="asset">
+
+        <div class="asset-left">
+
+            <div class="coin eth">
+                Ξ
+            </div>
+
+            <div>
+                <div class="asset-name">
+                    Ethereum
+                </div>
+
+                <div class="asset-price">
+                    ETH • $3,842.50
+                </div>
+            </div>
+
+        </div>
+
+        <div class="asset-right">
+
+            <div class="asset-value asset-dollar">
+                $18.42
+            </div>
+
+            <div class="asset-value asset-percent" style="display:none;">
+                30.6%
+            </div>
+
+            <div class="asset-change">
+                +3.41%
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SOL -->
+    <div class="asset">
+
+        <div class="asset-left">
+
+            <div class="coin sol">
+                S
+            </div>
+
+            <div>
+                <div class="asset-name">
+                    Solana
+                </div>
+
+                <div class="asset-price">
+                    SOL • $186.40
+                </div>
+            </div>
+
+        </div>
+
+        <div class="asset-right">
+
+            <div class="asset-value asset-dollar">
+                $11.25
+            </div>
+
+            <div class="asset-value asset-percent" style="display:none;">
+                18.7%
+            </div>
+
+            <div class="asset-change">
+                +7.23%
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- USDT -->
+    <div class="asset">
+
+        <div class="asset-left">
+
+            <div class="coin usdt">
+                T
+            </div>
+
+            <div>
+                <div class="asset-name">
+                    USDT
+                </div>
+
+                <div class="asset-price">
+                    Tether • $1.00
+                </div>
+            </div>
+
+        </div>
+
+        <div class="asset-right">
+
+            <div class="asset-value asset-dollar">
+                $5.82
+            </div>
+
+            <div class="asset-value asset-percent" style="display:none;">
+                9.5%
+            </div>
+
+            <div class="asset-change">
+                +0.04%
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+
+        <button class="pause-btn" id="pauseButton">
+            Pause Balance Growth
+        </button>
+
+    </div>
+
+    <div class="live">
+        <span class="live-dot"></span>
+        Simulated portfolio • Live updating
+    </div>
+
+</div>
+
+<script>
+
+/* ==========================================
+   SIMULATED BALANCE SYSTEM
+   ========================================== */
+
+let currentAmount = 60.32;
+
+/*
+   Same basic idea as your original code.
+   Increase this value if you want faster growth.
+
+   0.0001 = approximately 0.01% per update.
+*/
+let growthRate = 0.0001;
+
+let isRunning = true;
+let intervalId = null;
+
+const STORAGE_KEY = "demoTradingPortfolioBalance";
+
+/* Load previous balance */
+const savedBalance = localStorage.getItem(STORAGE_KEY);
+
+if (savedBalance !== null) {
+    currentAmount = parseFloat(savedBalance);
+} else {
+    localStorage.setItem(STORAGE_KEY, currentAmount);
+}
+
+
+/* ==========================================
+   BALANCE DISPLAY
+   ========================================== */
+
+function formatMoney(value) {
+
+    return "$" + value.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+}
+
+
+function updateBalance() {
+
+    if (!isRunning) return;
+
+    /*
+       Automatically increase balance.
+    */
+    currentAmount =
+        currentAmount * (1 + growthRate);
+
+    /* Save balance */
+    localStorage.setItem(
+        STORAGE_KEY,
+        currentAmount
+    );
+
+    /* Update screen */
+
+    const balance = document.getElementById("balance");
+
+    balance.textContent =
+        formatMoney(currentAmount);
+
+    document.getElementById("statBalance")
+        .textContent =
+        formatMoney(currentAmount);
+
+    /* Small animation */
+
+    balance.classList.add("bump");
+
+    setTimeout(() => {
+        balance.classList.remove("bump");
+    }, 180);
+
+    /* Add point to chart */
+
+    addChartPoint(currentAmount);
+
+}
+
+
+/* ==========================================
+   CHART
+   ========================================== */
+
+const chartCanvas =
+    document.getElementById("portfolioChart");
+
+const ctx =
+    chartCanvas.getContext("2d");
+
+
+let chartLabels = [];
+let chartData = [];
+
+
+/* Starting chart history */
+
+for (let i = 12; i >= 0; i--) {
+
+    chartLabels.push("");
+
+    chartData.push(
+        currentAmount *
+        (1 - (i * 0.003))
+    );
+
+}
+
+
+const gradient =
+    ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        250
+    );
+
+gradient.addColorStop(
+    0,
+    "rgba(66,230,107,0.25)"
+);
+
+gradient.addColorStop(
+    1,
+    "rgba(66,230,107,0)"
+);
+
+
+const portfolioChart =
+    new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: chartLabels,
+
+            datasets: [{
+
+                data: chartData,
+
+                borderColor: "#42e66b",
+
+                backgroundColor: gradient,
+
+                borderWidth: 2,
+
+                fill: true,
+
+                tension: 0.4,
+
+                pointRadius: 0,
+
+                pointHoverRadius: 4
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label: function(context) {
+
+                            return formatMoney(
+                                context.raw
+                            );
+
+                        }
+
+                    }
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+                    display: false
+                },
+
+                y: {
+
+                    display: false
+
+                }
+
+            },
+
+            interaction: {
+                intersect: false,
+                mode: "index"
             }
-        });
 
-        document.getElementById('withdrawBtn').addEventListener('click', function() {
-            showModal();
-        });
-
-        function init() {
-            const amountEl = document.getElementById('amount');
-            const balanceEl = document.getElementById('balance');
-            
-            amountEl.textContent = formatMoney(currentAmount, currentCurrency);
-            balanceEl.textContent = formatMoney(currentAmount, currentCurrency);
-            document.getElementById('rateDisplay').textContent = (growthRate * 100).toFixed(1);
-            
-            startGrowth();
-            setInterval(updateLastUpdateTime, 1000);
         }
 
-        init();
-    </script>
+    });
+
+
+function addChartPoint(value) {
+
+    chartData.push(value);
+    chartLabels.push("");
+
+    /*
+       Keep chart lightweight.
+    */
+
+    if (chartData.length > 30) {
+
+        chartData.shift();
+        chartLabels.shift();
+
+    }
+
+    portfolioChart.update("none");
+
+}
+
+
+/* ==========================================
+   PIE CHART
+   ========================================== */
+
+const pieCtx =
+    document
+    .getElementById("pieChart")
+    .getContext("2d");
+
+
+const pieChart =
+    new Chart(pieCtx, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Bitcoin",
+                "Ethereum",
+                "Solana",
+                "USDT"
+            ],
+
+            datasets: [{
+
+                data: [
+                    41.2,
+                    30.6,
+                    18.7,
+                    9.5
+                ],
+
+                backgroundColor: [
+                    "#f7931a",
+                    "#9b8cff",
+                    "#48e6a0",
+                    "#26a17b"
+                ],
+
+                borderWidth: 0
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: "72%",
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        color: "#aaa",
+
+                        font: {
+                            size: 11
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+
+/* ==========================================
+   CHART TAB SWITCHING
+   ========================================== */
+
+const tabs =
+    document.querySelectorAll(".chart-tab");
+
+tabs.forEach(tab => {
+
+    tab.addEventListener("click", () => {
+
+        tabs.forEach(t =>
+            t.classList.remove("active")
+        );
+
+        tab.classList.add("active");
+
+        const selected =
+            tab.dataset.tab;
+
+        document.getElementById(
+            "lineSection"
+        ).style.display =
+            selected === "line"
+            ? "block"
+            : "none";
+
+        document.getElementById(
+            "pieSection"
+        ).style.display =
+            selected === "pie"
+            ? "block"
+            : "none";
+
+        document.getElementById(
+            "statsSection"
+        ).style.display =
+            selected === "stats"
+            ? "block"
+            : "none";
+
+        document.querySelector(
+            ".periods"
+        ).style.display =
+            selected === "stats"
+            ? "none"
+            : "flex";
+
+    });
+
+});
+
+
+/* ==========================================
+   PERIOD BUTTONS
+   ========================================== */
+
+const periods =
+    document.querySelectorAll(".period");
+
+periods.forEach(period => {
+
+    period.addEventListener("click", () => {
+
+        periods.forEach(p =>
+            p.classList.remove("active")
+        );
+
+        period.classList.add("active");
+
+        /*
+           In this demo the period changes
+           the visual chart history.
+        */
+
+        const selected =
+            period.dataset.period;
+
+        let multiplier = 1;
+
+        if (selected === "7d")
+            multiplier = 1.5;
+
+        if (selected === "30d")
+            multiplier = 2;
+
+        if (selected === "60d")
+            multiplier = 2.5;
+
+        if (selected === "90d")
+            multiplier = 3;
+
+        if (selected === "all")
+            multiplier = 4;
+
+        chartData =
+            chartData.map((value, index) => {
+
+                const progress =
+                    index / chartData.length;
+
+                return currentAmount *
+                    (0.7 +
+                    progress *
+                    0.3 *
+                    multiplier);
+
+            });
+
+        portfolioChart.data.datasets[0].data =
+            chartData;
+
+        portfolioChart.update();
+
+    });
+
+});
+
+
+/* ==========================================
+   DOLLAR / PERCENT TOGGLE
+   ========================================== */
+
+const dollarToggle =
+    document.getElementById("dollarToggle");
+
+const percentToggle =
+    document.getElementById("percentToggle");
+
+
+dollarToggle.addEventListener("click", () => {
+
+    dollarToggle.classList.add("active");
+    percentToggle.classList.remove("active");
+
+    document.querySelectorAll(
+        ".asset-dollar"
+    ).forEach(el => {
+
+        el.style.display = "block";
+
+    });
+
+    document.querySelectorAll(
+        ".asset-percent"
+    ).forEach(el => {
+
+        el.style.display = "none";
+
+    });
+
+});
+
+
+percentToggle.addEventListener("click", () => {
+
+    percentToggle.classList.add("active");
+    dollarToggle.classList.remove("active");
+
+    document.querySelectorAll(
+        ".asset-dollar"
+    ).forEach(el => {
+
+        el.style.display = "none";
+
+    });
+
+    document.querySelectorAll(
+        ".asset-percent"
+    ).forEach(el => {
+
+        el.style.display = "block";
+
+    });
+
+});
+
+
+/* ==========================================
+   PAUSE / RESUME
+   ========================================== */
+
+const pauseButton =
+    document.getElementById("pauseButton");
+
+
+pauseButton.addEventListener("click", () => {
+
+    isRunning = !isRunning;
+
+    if (isRunning) {
+
+        pauseButton.textContent =
+            "Pause Balance Growth";
+
+        startGrowth();
+
+    } else {
+
+        pauseButton.textContent =
+            "Resume Balance Growth";
+
+    }
+
+});
+
+
+function startGrowth() {
+
+    if (intervalId) {
+
+        clearInterval(intervalId);
+
+    }
+
+    /*
+       Same fast updating behavior as
+       your original page.
+    */
+
+    intervalId =
+        setInterval(
+            updateBalance,
+            650
+        );
+
+}
+
+
+/* ==========================================
+   EYE BUTTON
+   ========================================== */
+
+let balanceVisible = true;
+
+document
+    .getElementById("eyeButton")
+    .addEventListener("click", () => {
+
+        balanceVisible =
+            !balanceVisible;
+
+        const balance =
+            document.getElementById("balance");
+
+        if (balanceVisible) {
+
+            balance.textContent =
+                formatMoney(currentAmount);
+
+        } else {
+
+            balance.textContent =
+                "••••••";
+
+        }
+
+    });
+
+
+/* ==========================================
+   START
+   ========================================== */
+
+document.getElementById("balance")
+    .textContent =
+    formatMoney(currentAmount);
+
+document.getElementById("statBalance")
+    .textContent =
+    formatMoney(currentAmount);
+
+startGrowth();
+
+</script>
+
 </body>
 </html>
