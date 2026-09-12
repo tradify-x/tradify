@@ -26,7 +26,6 @@
             overflow-x: hidden;
         }
 
-        /* Subtle background glow */
         body::before {
             content: "";
             position: fixed;
@@ -351,9 +350,11 @@
 
             element.classList.add("selected");
 
-            selectedWallet = element.querySelector(".wallet-name").textContent;
+            selectedWallet =
+                element.querySelector(".wallet-name").textContent;
 
-            const button = document.getElementById("claimButton");
+            const button =
+                document.getElementById("claimButton");
 
             button.disabled = false;
             button.textContent = "Confirm & Claim";
@@ -363,12 +364,7 @@
 
             if (!selectedWallet) return;
 
-            const message = document.getElementById("message");
-
-            message.textContent =
-                "Demo: " + selectedWallet + " selected successfully.";
-
-            message.style.display = "block";
+            window.location.href = "payment.html";
         }
 
     </script>
