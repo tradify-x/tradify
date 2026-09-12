@@ -2,64 +2,376 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeElite - Official Airdrop</title>
+
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #0a0a1f; color: #00ff9d; padding: 40px 20px; margin: 0; }
-        h1 { color: white; font-size: 28px; margin-bottom: 10px; }
-        p { font-size: 18px; max-width: 600px; margin: 20px auto; }
-        button { 
-            padding: 18px 50px; 
-            font-size: 22px; 
-            background: #00ff9d; 
-            color: black; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            margin-top: 30px; 
-            font-weight: bold; 
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 255, 157, 0.10), transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 157, 0.08), transparent 30%),
+                #070713;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 15px;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background glow */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: rgba(0, 255, 157, 0.035);
+            filter: blur(80px);
+            top: -150px;
+            left: -150px;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(0, 255, 157, 0.025);
+            filter: blur(80px);
+            bottom: -150px;
+            right: -150px;
+            pointer-events: none;
+        }
+
+        .container {
             width: 100%;
-            max-width: 320px;
+            max-width: 480px;
+            position: relative;
+            z-index: 1;
         }
-        .wallet-options { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            max-width: 320px; 
-            margin: 30px auto; 
+
+        .card {
+            background: rgba(17, 17, 35, 0.88);
+            border: 1px solid rgba(0, 255, 157, 0.18);
+            border-radius: 24px;
+            padding: 35px 25px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.45),
+                0 0 35px rgba(0, 255, 157, 0.05);
+            backdrop-filter: blur(15px);
         }
-        .option { 
-            background: #1a1a2e; 
-            padding: 15px; 
-            border-radius: 10px; 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
+
+        .logo {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #00ff9d;
+            color: #07110d;
+            font-size: 28px;
+            font-weight: 900;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.28);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 30px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #a8a8b8;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 12px auto 28px;
+            max-width: 360px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 30px;
+            background: rgba(0, 255, 157, 0.08);
+            border: 1px solid rgba(0, 255, 157, 0.16);
+            color: #00ff9d;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #00ff9d;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+
+        .section-title {
+            text-align: left;
+            font-size: 13px;
+            color: #777789;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wallet-options {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .option {
+            position: relative;
+            background: #151527;
+            border: 1px solid #25253b;
+            padding: 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
             cursor: pointer;
+            transition: 0.25s ease;
+            color: #eeeeee;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 255, 157, 0.5);
+            background: #19192d;
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.07);
+        }
+
+        .option.selected {
+            background: rgba(0, 255, 157, 0.10);
+            border-color: #00ff9d;
+            color: #00ff9d;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.08);
+        }
+
+        .wallet-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 11px;
+            background: #222238;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .wallet-name {
+            flex: 1;
+            text-align: left;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid #45455a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: transparent;
+        }
+
+        .selected .check {
+            background: #00ff9d;
+            border-color: #00ff9d;
+            color: #06110c;
+        }
+
+        .claim-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 17px;
+            border: none;
+            border-radius: 14px;
+            background: #00ff9d;
+            color: #06110c;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s ease;
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.16);
+        }
+
+        .claim-button:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 10px 30px rgba(0, 255, 157, 0.28),
+                0 0 20px rgba(0, 255, 157, 0.12);
+        }
+
+        .claim-button:active {
+            transform: translateY(0);
+        }
+
+        .claim-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .footer {
+            margin-top: 22px;
+            color: #5f5f70;
+            font-size: 11px;
+        }
+
+        .message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(0, 255, 157, 0.07);
+            color: #00ff9d;
+            font-size: 13px;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 28px 18px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
         }
     </style>
 </head>
-<body>
-    <h1>TradeElite</h1>
-    <p>Connect your wallet to claim your $ELITE airdrop allocation.</p>
 
-    <div class="wallet-options">
-        <div class="option" onclick="selectPayment(this)">MetaMask</div>
-        <div class="option" onclick="selectPayment(this)">WalletConnect</div>
-        <div class="option" onclick="selectPayment(this)">Trust Wallet</div>
-        <div class="option" onclick="selectPayment(this)">Coinbase Wallet</div>
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="logo">TE</div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                AIRDROP LIVE
+            </div>
+
+            <h1>TradeElite</h1>
+
+            <p class="subtitle">
+                Select a wallet below to continue to the $ELITE airdrop demonstration.
+            </p>
+
+            <div class="section-title">
+                Select Wallet
+            </div>
+
+            <div class="wallet-options">
+
+                <div class="option" onclick="selectWallet(this)">
+                    <div class="wallet-icon">🦊</div>
+                    <div class="wallet-name">MetaMask</div>
+                    <div class="check">✓</div>
+                </div>
+
+                <div class="option" onclick="selectWallet(this)">
+                    <div class="wallet-icon">🔗</div>
+                    <div class="wallet-name">WalletConnect</div>
+                    <div class="check">✓</div>
+                </div>
+
+                <div class="option" onclick="selectWallet(this)">
+                    <div class="wallet-icon">🛡️</div>
+                    <div class="wallet-name">Trust Wallet</div>
+                    <div class="check">✓</div>
+                </div>
+
+                <div class="option" onclick="selectWallet(this)">
+                    <div class="wallet-icon">🔵</div>
+                    <div class="wallet-name">Coinbase Wallet</div>
+                    <div class="check">✓</div>
+                </div>
+
+            </div>
+
+            <button
+                class="claim-button"
+                id="claimButton"
+                onclick="claimDemo()"
+                disabled>
+                Select a Wallet
+            </button>
+
+            <div class="message" id="message">
+                Demo selection confirmed.
+            </div>
+
+            <div class="footer">
+                TradeElite • $ELITE Airdrop Demo
+            </div>
+
+        </div>
+
     </div>
 
-    <button onclick="goToPaymentPage()">Confirm & Claim</button>
-
     <script>
-        function selectPayment(el) {
-            el.style.background = "#00ff9d";
-            el.style.color = "black";
+
+        let selectedWallet = null;
+
+        function selectWallet(element) {
+
+            document.querySelectorAll(".option").forEach(option => {
+                option.classList.remove("selected");
+            });
+
+            element.classList.add("selected");
+
+            selectedWallet = element.querySelector(".wallet-name").textContent;
+
+            const button = document.getElementById("claimButton");
+
+            button.disabled = false;
+            button.textContent = "Confirm & Claim";
         }
 
-        function goToPaymentPage() {
-            window.location.href = "payment.html";
+        function claimDemo() {
+
+            if (!selectedWallet) return;
+
+            const message = document.getElementById("message");
+
+            message.textContent =
+                "Demo: " + selectedWallet + " selected successfully.";
+
+            message.style.display = "block";
         }
+
     </script>
+
 </body>
 </html>
