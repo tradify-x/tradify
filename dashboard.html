@@ -3,22 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trading Portfolio </title>
+<title>Trading Portfolio</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     background: #000;
     color: #fff;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
 }
 
 .app {
@@ -28,6 +27,7 @@ body {
     margin: auto;
     background: #000;
     padding: 20px 18px 40px;
+    position: relative;
 }
 
 /* HEADER */
@@ -44,27 +44,10 @@ body {
     gap: 18px;
 }
 
-.menu {
-    font-size: 25px;
-    cursor: pointer;
-}
-
-.portfolio-title {
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-.icon {
-    color: #aaa;
-    font-size: 21px;
-    cursor: pointer;
-}
+.menu { font-size: 25px; cursor: pointer; user-select: none; }
+.portfolio-title { font-size: 20px; font-weight: 700; }
+.header-actions { display: flex; align-items: center; gap: 18px; }
+.icon { color: #aaa; font-size: 21px; cursor: pointer; user-select: none; }
 
 /* DEMO LABEL */
 .demo-label {
@@ -80,11 +63,7 @@ body {
 }
 
 /* BALANCE */
-.balance-label {
-    color: #8b8b8b;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
+.balance-label { color: #8b8b8b; font-size: 14px; margin-bottom: 5px; }
 
 .balance {
     font-family: 'Space Grotesk', sans-serif;
@@ -92,26 +71,15 @@ body {
     font-weight: 700;
     letter-spacing: -1.5px;
     color: #42e66b;
-    transition: transform .2s ease;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.6s ease;
 }
 
-.balance.bump {
-    transform: scale(1.025);
-}
+.balance.tick-up { color: #a4ffba; }
+.balance.tick-down { color: #ff8585; }
 
-.change-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 9px;
-}
-
-.change {
-    color: #42e66b;
-    font-size: 14px;
-    font-weight: 600;
-}
-
+.change-row { display: flex; align-items: center; gap: 10px; margin-top: 9px; }
+.change { color: #42e66b; font-size: 14px; font-weight: 600; }
 .change-percent {
     background: #123b20;
     color: #4bea70;
@@ -136,22 +104,11 @@ body {
     cursor: pointer;
 }
 
-.chart-tab.active {
-    color: #fff;
-    border-bottom: 2px solid #42e66b;
-}
+.chart-tab.active { color: #fff; border-bottom: 2px solid #42e66b; }
 
 /* CHART */
-.chart-container {
-    height: 230px;
-    margin-top: 20px;
-    position: relative;
-}
-
-#portfolioChart {
-    width: 100% !important;
-    height: 100% !important;
-}
+.chart-container { height: 230px; margin-top: 20px; position: relative; }
+#portfolioChart { width: 100% !important; height: 100% !important; }
 
 /* TIME SELECTOR */
 .periods {
@@ -171,10 +128,7 @@ body {
     cursor: pointer;
 }
 
-.period.active {
-    background: #1a1a1a;
-    color: #fff;
-}
+.period.active { background: #1a1a1a; color: #fff; }
 
 /* ASSETS */
 .assets-header {
@@ -185,10 +139,7 @@ body {
     margin-bottom: 15px;
 }
 
-.assets-title {
-    font-size: 18px;
-    font-weight: 700;
-}
+.assets-title { font-size: 18px; font-weight: 700; }
 
 .value-toggle {
     display: flex;
@@ -207,10 +158,7 @@ body {
     font-size: 11px;
 }
 
-.toggle.active {
-    background: #222;
-    color: #fff;
-}
+.toggle.active { background: #222; color: #fff; }
 
 /* ASSET ROW */
 .asset {
@@ -221,11 +169,7 @@ body {
     border-bottom: 1px solid #151515;
 }
 
-.asset-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+.asset-left { display: flex; align-items: center; gap: 12px; }
 
 .coin {
     width: 42px;
@@ -239,53 +183,19 @@ body {
     font-weight: 700;
 }
 
-.coin.btc {
-    color: #f7931a;
-}
+.coin.btc { color: #f7931a; }
+.coin.eth { color: #9b8cff; }
+.coin.sol { color: #48e6a0; }
+.coin.usdt { color: #26a17b; }
 
-.coin.eth {
-    color: #9b8cff;
-}
-
-.coin.sol {
-    color: #48e6a0;
-}
-
-.coin.usdt {
-    color: #26a17b;
-}
-
-.asset-name {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.asset-price {
-    color: #777;
-    font-size: 11px;
-    margin-top: 4px;
-}
-
-.asset-right {
-    text-align: right;
-}
-
-.asset-value {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.asset-change {
-    font-size: 11px;
-    color: #42e66b;
-    margin-top: 4px;
-}
+.asset-name { font-size: 14px; font-weight: 600; }
+.asset-price { color: #777; font-size: 11px; margin-top: 4px; }
+.asset-right { text-align: right; }
+.asset-value { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.asset-change { font-size: 11px; color: #42e66b; margin-top: 4px; }
 
 /* STATISTICS */
-.statistics {
-    display: none;
-    margin-top: 20px;
-}
+.statistics { display: none; margin-top: 20px; }
 
 .stat-card {
     background: #0d0d0d;
@@ -295,45 +205,22 @@ body {
     margin-bottom: 10px;
 }
 
-.stat-label {
-    color: #777;
-    font-size: 12px;
-}
+.stat-label { color: #777; font-size: 12px; }
 
 .stat-value {
     margin-top: 6px;
     font-size: 20px;
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
-/* PAUSE BUTTON */
-.controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.pause-btn {
-    border: 1px solid #292929;
-    background: #0d0d0d;
-    color: #bbb;
-    padding: 10px 18px;
-    border-radius: 9px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.pause-btn:hover {
-    background: #171717;
-}
-
-/* LIVE */
+/* LIVE DOT */
 .live {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
-    margin-top: 16px;
+    margin-top: 24px;
     color: #555;
     font-size: 10px;
 }
@@ -347,46 +234,218 @@ body {
 }
 
 @keyframes pulse {
-    0%,100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: .35;
-    }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .3; transform: scale(0.85); }
 }
 
-/* MOBILE */
+/* OVERLAY & DRAWER */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    z-index: 100;
+    opacity: 0; visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.overlay.active { opacity: 1; visibility: visible; }
+
+.drawer {
+    position: fixed;
+    top: 0; left: -280px; width: 280px; height: 100%;
+    background: #0a0a0a;
+    border-right: 1px solid #1c1c1c;
+    z-index: 101;
+    transition: left 0.3s ease;
+    padding: 24px 20px;
+    display: flex; flex-direction: column;
+}
+
+.drawer.open { left: 0; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+.drawer-title { font-size: 18px; font-weight: 700; color: #fff; }
+.drawer-close { font-size: 22px; color: #777; cursor: pointer; }
+.drawer-menu { list-style: none; padding: 0; margin: 0; }
+.drawer-item { display: flex; align-items: center; gap: 12px; padding: 14px 12px; color: #ccc; font-size: 14px; font-weight: 500; border-radius: 10px; cursor: pointer; }
+.drawer-item:hover, .drawer-item.active { background: #141414; color: #42e66b; }
+
+/* MODALS */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 200;
+    opacity: 0; visibility: hidden;
+    transition: all 0.25s ease;
+    padding: 20px;
+}
+
+.modal.active { opacity: 1; visibility: visible; }
+
+.modal-content {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 400px; width: 100%;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+
+.modal.active .modal-content { transform: scale(1); }
+.modal-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 16px; }
+.modal-icon.warning { background: #2a1212; color: #ff4d4d; border: 1px solid #4a1c1c; }
+.modal-icon.info { background: #122416; color: #42e66b; border: 1px solid #1c4a24; }
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+.modal-message { font-size: 13px; color: #bbb; line-height: 1.5; margin-bottom: 20px; }
+.modal-btn { background: #222; color: #fff; border: 1px solid #333; width: 100%; padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.modal-btn.danger { background: #ff4d4d; border: none; }
+
+.crypto-card { background: #080808; border: 1px solid #1e1e1e; border-radius: 12px; padding: 12px; margin-bottom: 12px; text-align: left; }
+.crypto-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.crypto-name { font-size: 12px; font-weight: 700; color: #42e66b; }
+.address-box { background: #121212; border: 1px dashed #333; border-radius: 8px; padding: 8px; font-family: monospace; font-size: 11px; color: #ddd; word-break: break-all; }
+.copy-btn { background: #1a1a1a; border: 1px solid #333; color: #aaa; font-size: 10px; padding: 3px 8px; border-radius: 6px; cursor: pointer; }
+
+.tx-list { text-align: left; margin-bottom: 20px; }
+.tx-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #1a1a1a; font-size: 12px; }
+.tx-type { font-weight: 600; color: #fff; }
+.tx-date { color: #666; font-size: 10px; margin-top: 2px; }
+.tx-amount.green { color: #42e66b; font-weight: 600; }
+
+.setting-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1a1a1a; text-align: left; }
+.setting-label { font-size: 13px; font-weight: 500; }
+
 @media(max-width: 400px) {
-
-    .app {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .balance {
-        font-size: 38px;
-    }
-
-    .period {
-        padding: 7px 6px;
-        font-size: 10px;
-    }
+    .app { padding-left: 15px; padding-right: 15px; }
+    .balance { font-size: 38px; }
 }
 </style>
 </head>
 
 <body>
 
+<div class="overlay" id="overlay"></div>
+
+<!-- SIDE DRAWER -->
+<div class="drawer" id="drawer">
+    <div class="drawer-header">
+        <div class="drawer-title">Menu</div>
+        <div class="drawer-close" id="drawerClose">✕</div>
+    </div>
+    <ul class="drawer-menu">
+        <li class="drawer-item active" id="dashboardTab"><span class="icon-tab">📊</span> Dashboard</li>
+        <li class="drawer-item" id="depositTab"><span class="icon-tab">💳</span> Deposit</li>
+        <li class="drawer-item" id="withdrawTab"><span class="icon-tab">💸</span> Withdraw</li>
+        <li class="drawer-item" id="txTab"><span class="icon-tab">📑</span> Transactions</li>
+        <li class="drawer-item" id="settingsTab"><span class="icon-tab">⚙️</span> Settings</li>
+        <li class="drawer-item" id="supportTab"><span class="icon-tab">💬</span> Help & Support</li>
+    </ul>
+</div>
+
+<!-- WITHDRAWAL MODAL -->
+<div class="modal" id="withdrawModal">
+    <div class="modal-content">
+        <div class="modal-icon warning">⚠️</div>
+        <div class="modal-title" style="color: #ff4d4d;">Withdrawal Restricted</div>
+        <div class="modal-message">Withdrawal restriction: minimum withdrawal amount is $2,000.</div>
+        <button class="modal-btn danger closeModalBtn">Acknowledge</button>
+    </div>
+</div>
+
+<!-- DEPOSIT MODAL -->
+<div class="modal" id="depositModal">
+    <div class="modal-content">
+        <div class="modal-icon info">💳</div>
+        <div class="modal-title">Deposit Funds</div>
+        <div class="modal-message" style="margin-bottom: 12px;">Transfer your desired amount to any of the wallet addresses below:</div>
+
+        <div class="crypto-card">
+            <div class="crypto-header">
+                <span class="crypto-name">Bitcoin (BTC)</span>
+                <button class="copy-btn" onclick="copyAddress('btc-address', this)">Copy Address</button>
+            </div>
+            <div class="address-box" id="btc-address">bc1qrxl9q0f950t7jks50d2xq44lvn3wf0uw28xk7w</div>
+        </div>
+
+        <div class="crypto-card">
+            <div class="crypto-header">
+                <span class="crypto-name">Tether (USDT TRC20)</span>
+                <button class="copy-btn" onclick="copyAddress('trc20-address', this)">Copy Address</button>
+            </div>
+            <div class="address-box" id="trc20-address">TMiG4fuitxgGUt1njYtYnn3NMvXJCTj9kn</div>
+        </div>
+
+        <button class="modal-btn closeModalBtn" style="margin-top: 10px;">Close</button>
+    </div>
+</div>
+
+<!-- TRANSACTIONS MODAL -->
+<div class="modal" id="txModal">
+    <div class="modal-content">
+        <div class="modal-icon info">📑</div>
+        <div class="modal-title">Recent Transactions</div>
+        <div class="tx-list">
+            <div class="tx-item">
+                <div>
+                    <div class="tx-type">Trading Yield</div>
+                    <div class="tx-date">Today, 10:42 AM</div>
+                </div>
+                <div class="tx-amount green">+$18.42</div>
+            </div>
+            <div class="tx-item">
+                <div>
+                    <div class="tx-type">Account Bonus</div>
+                    <div class="tx-date">Yesterday</div>
+                </div>
+                <div class="tx-amount green">+$50.00</div>
+            </div>
+        </div>
+        <button class="modal-btn closeModalBtn">Close</button>
+    </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal" id="settingsModal">
+    <div class="modal-content">
+        <div class="modal-icon info">⚙️</div>
+        <div class="modal-title">Settings</div>
+        <div style="margin-bottom: 20px;">
+            <div class="setting-row">
+                <span class="setting-label">Live Price Updates</span>
+                <input type="checkbox" checked>
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">2FA Verification</span>
+                <input type="checkbox">
+            </div>
+        </div>
+        <button class="modal-btn closeModalBtn">Save & Close</button>
+    </div>
+</div>
+
+<!-- SUPPORT MODAL -->
+<div class="modal" id="supportModal">
+    <div class="modal-content">
+        <div class="modal-icon info">💬</div>
+        <div class="modal-title">Support Desk</div>
+        <div class="modal-message">Have questions about your trading portfolio? Our team is available 24/7.</div>
+        <button class="modal-btn" style="background:#42e66b; color:#000; font-weight:700; margin-bottom: 8px;">Start Live Chat</button>
+        <button class="modal-btn closeModalBtn">Close</button>
+    </div>
+</div>
+
 <div class="app">
 
     <!-- HEADER -->
     <div class="header">
         <div class="header-left">
-            <div class="menu">☰</div>
+            <div class="menu" id="menuBtn">☰</div>
             <div class="portfolio-title">My Main Portfolio</div>
         </div>
-
         <div class="header-actions">
             <div class="icon" id="eyeButton">◉</div>
             <div class="icon">＋</div>
@@ -395,29 +454,19 @@ body {
 
     <div class="demo-label">Portfolio</div>
 
-    <!-- BALANCE -->
-    <div class="balance-label">
-        Current Balance
-    </div>
-
-    <div class="balance" id="balance">
-        $200.32
-    </div>
+    <div class="balance-label">Current Balance</div>
+    <div class="balance" id="balance">$200.32</div>
 
     <div class="change-row">
-        <div class="change" id="dailyChange">
-            +18.4% today
-        </div>
-
-        <div class="change-percent">
-            +18.4%
-        </div>
+        <div class="change" id="dailyChange">+18.4% today</div>
+        <div class="change-percent">+18.4%</div>
     </div>
 
     <!-- CHART TABS -->
     <div class="chart-tabs">
-
-      
+        <div class="chart-tab active" data-tab="line">Overview</div>
+        <div class="chart-tab" data-tab="pie">Allocation</div>
+        <div class="chart-tab" data-tab="stats">Stats</div>
     </div>
 
     <!-- LINE CHART -->
@@ -432,214 +481,99 @@ body {
 
     <!-- STATISTICS -->
     <div class="statistics" id="statsSection">
-
         <div class="stat-card">
             <div class="stat-label">Portfolio Balance</div>
             <div class="stat-value" id="statBalance">$200.32</div>
         </div>
-
         <div class="stat-card">
             <div class="stat-label">Today's Change</div>
-            <div class="stat-value" style="color:#42e66b;">
-                +18.4%
-            </div>
+            <div class="stat-value" style="color:#42e66b;">+18.4%</div>
         </div>
-
         <div class="stat-card">
             <div class="stat-label">Portfolio Status</div>
-            <div class="stat-value">
-                Active
-            </div>
+            <div class="stat-value">Active</div>
         </div>
-
     </div>
 
     <!-- PERIODS -->
     <div class="periods">
-
-        <div class="period active" data-period="24h">
-            24h
-        </div>
-
-        
-
+        <div class="period active" data-period="24h">24h</div>
+        <div class="period" data-period="7d">7d</div>
+        <div class="period" data-period="30d">30d</div>
+        <div class="period" data-period="all">All</div>
     </div>
 
     <!-- ASSETS -->
     <div class="assets-header">
-
-        <div class="assets-title">
-            Your Assets
-        </div>
-
+        <div class="assets-title">Your Assets</div>
         <div class="value-toggle">
             <button class="toggle active" id="dollarToggle">$</button>
             <button class="toggle" id="percentToggle">%</button>
         </div>
-
     </div>
 
     <!-- BTC -->
     <div class="asset">
-
         <div class="asset-left">
-
-            <div class="coin btc">
-                ₿
-            </div>
-
+            <div class="coin btc">₿</div>
             <div>
-                <div class="asset-name">
-                    Bitcoin
-                </div>
-
-                <div class="asset-price">
-                    BTC • $67,842.10
-                </div>
+                <div class="asset-name">Bitcoin</div>
+                <div class="asset-price">BTC • $67,842.10</div>
             </div>
-
         </div>
-
         <div class="asset-right">
-
-            <div class="asset-value asset-dollar">
-                $24.83
-            </div>
-
-            <div class="asset-value asset-percent" style="display:none;">
-                41.2%
-            </div>
-
-            <div class="asset-change">
-                +5.82%
-            </div>
-
+            <div class="asset-value asset-dollar" id="assetBtc">$82.53</div>
+            <div class="asset-value asset-percent" style="display:none;">41.2%</div>
+            <div class="asset-change">+5.82%</div>
         </div>
-
     </div>
 
     <!-- ETH -->
     <div class="asset">
-
         <div class="asset-left">
-
-            <div class="coin eth">
-                Ξ
-            </div>
-
+            <div class="coin eth">Ξ</div>
             <div>
-                <div class="asset-name">
-                    Ethereum
-                </div>
-
-                <div class="asset-price">
-                    ETH • $3,842.50
-                </div>
+                <div class="asset-name">Ethereum</div>
+                <div class="asset-price">ETH • $3,842.50</div>
             </div>
-
         </div>
-
         <div class="asset-right">
-
-            <div class="asset-value asset-dollar">
-                $18.42
-            </div>
-
-            <div class="asset-value asset-percent" style="display:none;">
-                30.6%
-            </div>
-
-            <div class="asset-change">
-                +3.41%
-            </div>
-
+            <div class="asset-value asset-dollar" id="assetEth">$61.30</div>
+            <div class="asset-value asset-percent" style="display:none;">30.6%</div>
+            <div class="asset-change">+3.41%</div>
         </div>
-
     </div>
 
     <!-- SOL -->
     <div class="asset">
-
         <div class="asset-left">
-
-            <div class="coin sol">
-                S
-            </div>
-
+            <div class="coin sol">S</div>
             <div>
-                <div class="asset-name">
-                    Solana
-                </div>
-
-                <div class="asset-price">
-                    SOL • $186.40
-                </div>
+                <div class="asset-name">Solana</div>
+                <div class="asset-price">SOL • $186.40</div>
             </div>
-
         </div>
-
         <div class="asset-right">
-
-            <div class="asset-value asset-dollar">
-                $11.25
-            </div>
-
-            <div class="asset-value asset-percent" style="display:none;">
-                18.7%
-            </div>
-
-            <div class="asset-change">
-                +7.23%
-            </div>
-
+            <div class="asset-value asset-dollar" id="assetSol">$37.46</div>
+            <div class="asset-value asset-percent" style="display:none;">18.7%</div>
+            <div class="asset-change">+7.23%</div>
         </div>
-
     </div>
 
     <!-- USDT -->
     <div class="asset">
-
         <div class="asset-left">
-
-            <div class="coin usdt">
-                T
-            </div>
-
+            <div class="coin usdt">T</div>
             <div>
-                <div class="asset-name">
-                    USDT
-                </div>
-
-                <div class="asset-price">
-                    Tether • $1.00
-                </div>
+                <div class="asset-name">USDT</div>
+                <div class="asset-price">Tether • $1.00</div>
             </div>
-
         </div>
-
         <div class="asset-right">
-
-            <div class="asset-value asset-dollar">
-                $5.82
-            </div>
-
-            <div class="asset-value asset-percent" style="display:none;">
-                9.5%
-            </div>
-
-            <div class="asset-change">
-                +0.04%
-            </div>
-
+            <div class="asset-value asset-dollar" id="assetUsdt">$19.03</div>
+            <div class="asset-value asset-percent" style="display:none;">9.5%</div>
+            <div class="asset-change">+0.04%</div>
         </div>
-
-    </div>
-
-    <!-- CONTROLS -->
-    <div class="controls">
-
-        
-
     </div>
 
     <div class="live">
@@ -650,597 +584,191 @@ body {
 </div>
 
 <script>
+/* DRAWER & MODALS */
+const menuBtn = document.getElementById("menuBtn");
+const drawer = document.getElementById("drawer");
+const overlay = document.getElementById("overlay");
+const drawerClose = document.getElementById("drawerClose");
 
-/* ==========================================
-   SIMULATED BALANCE SYSTEM
-   ========================================== */
+function openDrawer() { drawer.classList.add("open"); overlay.classList.add("active"); }
+function closeDrawer() { drawer.classList.remove("open"); overlay.classList.remove("active"); }
+function openModal(m) { closeDrawer(); m.classList.add("active"); }
+function closeModals() { document.querySelectorAll(".modal").forEach(m => m.classList.remove("active")); overlay.classList.remove("active"); }
 
-let currentAmount = 60.32;
+menuBtn.addEventListener("click", openDrawer);
+drawerClose.addEventListener("click", closeDrawer);
+overlay.addEventListener("click", () => { closeDrawer(); closeModals(); });
 
-/*
-   Same basic idea as your original code.
-   Increase this value if you want faster growth.
+document.getElementById("dashboardTab").addEventListener("click", closeDrawer);
+document.getElementById("depositTab").addEventListener("click", () => openModal(document.getElementById("depositModal")));
+document.getElementById("withdrawTab").addEventListener("click", () => openModal(document.getElementById("withdrawModal")));
+document.getElementById("txTab").addEventListener("click", () => openModal(document.getElementById("txModal")));
+document.getElementById("settingsTab").addEventListener("click", () => openModal(document.getElementById("settingsModal")));
+document.getElementById("supportTab").addEventListener("click", () => openModal(document.getElementById("supportModal")));
+document.querySelectorAll(".closeModalBtn").forEach(btn => btn.addEventListener("click", closeModals));
 
-   0.0001 = approximately 0.01% per update.
-*/
-let growthRate = 0.0009;
-
-let isRunning = true;
-let intervalId = null;
-
-const STORAGE_KEY = "demoTradingPortfolioBalance";
-
-/* Load previous balance */
-const savedBalance = localStorage.getItem(STORAGE_KEY);
-
-if (savedBalance !== null) {
-    currentAmount = parseFloat(savedBalance);
-} else {
-    localStorage.setItem(STORAGE_KEY, currentAmount);
-}
-
-
-/* ==========================================
-   BALANCE DISPLAY
-   ========================================== */
-
-function formatMoney(value) {
-
-    return "$" + value.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+function copyAddress(id, btn) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.style.color = "#42e66b";
+        setTimeout(() => { btn.innerText = orig; btn.style.color = "#aaa"; }, 1500);
     });
-
 }
 
+/* REALISTIC SLOW TWO-WAY TICKER ENGINE */
+let currentAmount = 200.32;
+let balanceVisible = true;
+const balanceEl = document.getElementById("balance");
+const statBalanceEl = document.getElementById("statBalance");
+
+function formatMoney(val) {
+    return "$" + val.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 
 function updateBalance() {
-
-    if (!isRunning) return;
-
-    /*
-       Automatically increase balance.
-    */
-    currentAmount =
-        currentAmount * (1 + growthRate);
-
-    /* Save balance */
-    localStorage.setItem(
-        STORAGE_KEY,
-        currentAmount
-    );
-
-    /* Update screen */
-
-    const balance = document.getElementById("balance");
-
-    balance.textContent =
-        formatMoney(currentAmount);
-
-    document.getElementById("statBalance")
-        .textContent =
-        formatMoney(currentAmount);
-
-    /* Small animation */
-
-    balance.classList.add("bump");
-
-    setTimeout(() => {
-        balance.classList.remove("bump");
-    }, 180);
-
-    /* Add point to chart */
-
-    addChartPoint(currentAmount);
-
-}
-
-
-/* ==========================================
-   CHART
-   ========================================== */
-
-const chartCanvas =
-    document.getElementById("portfolioChart");
-
-const ctx =
-    chartCanvas.getContext("2d");
-
-
-let chartLabels = [];
-let chartData = [];
-
-
-/* Starting chart history */
-
-for (let i = 12; i >= 0; i--) {
-
-    chartLabels.push("");
-
-    chartData.push(
-        currentAmount *
-        (1 - (i * 0.003))
-    );
-
-}
-
-
-const gradient =
-    ctx.createLinearGradient(
-        0,
-        0,
-        0,
-        250
-    );
-
-gradient.addColorStop(
-    0,
-    "rgba(66,230,107,0.25)"
-);
-
-gradient.addColorStop(
-    1,
-    "rgba(66,230,107,0)"
-);
-
-
-const portfolioChart =
-    new Chart(ctx, {
-
-        type: "line",
-
-        data: {
-
-            labels: chartLabels,
-
-            datasets: [{
-
-                data: chartData,
-
-                borderColor: "#42e66b",
-
-                backgroundColor: gradient,
-
-                borderWidth: 2,
-
-                fill: true,
-
-                tension: 0.4,
-
-                pointRadius: 0,
-
-                pointHoverRadius: 4
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            plugins: {
-
-                legend: {
-                    display: false
-                },
-
-                tooltip: {
-
-                    callbacks: {
-
-                        label: function(context) {
-
-                            return formatMoney(
-                                context.raw
-                            );
-
-                        }
-
-                    }
-
-                }
-
-            },
-
-            scales: {
-
-                x: {
-                    display: false
-                },
-
-                y: {
-
-                    display: false
-
-                }
-
-            },
-
-            interaction: {
-                intersect: false,
-                mode: "index"
-            }
-
-        }
-
-    });
-
-
-function addChartPoint(value) {
-
-    chartData.push(value);
-    chartLabels.push("");
-
-    /*
-       Keep chart lightweight.
-    */
-
-    if (chartData.length > 30) {
-
-        chartData.shift();
-        chartLabels.shift();
-
-    }
-
-    portfolioChart.update("none");
-
-}
-
-
-/* ==========================================
-   PIE CHART
-   ========================================== */
-
-const pieCtx =
-    document
-    .getElementById("pieChart")
-    .getContext("2d");
-
-
-const pieChart =
-    new Chart(pieCtx, {
-
-        type: "doughnut",
-
-        data: {
-
-            labels: [
-                "Bitcoin",
-                "Ethereum",
-                "Solana",
-                "USDT"
-            ],
-
-            datasets: [{
-
-                data: [
-                    41.2,
-                    30.6,
-                    18.7,
-                    9.5
-                ],
-
-                backgroundColor: [
-                    "#f7931a",
-                    "#9b8cff",
-                    "#48e6a0",
-                    "#26a17b"
-                ],
-
-                borderWidth: 0
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            maintainAspectRatio: false,
-
-            cutout: "72%",
-
-            plugins: {
-
-                legend: {
-
-                    labels: {
-
-                        color: "#aaa",
-
-                        font: {
-                            size: 11
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
-
-    });
-
-
-/* ==========================================
-   CHART TAB SWITCHING
-   ========================================== */
-
-const tabs =
-    document.querySelectorAll(".chart-tab");
-
-tabs.forEach(tab => {
-
-    tab.addEventListener("click", () => {
-
-        tabs.forEach(t =>
-            t.classList.remove("active")
-        );
-
-        tab.classList.add("active");
-
-        const selected =
-            tab.dataset.tab;
-
-        document.getElementById(
-            "lineSection"
-        ).style.display =
-            selected === "line"
-            ? "block"
-            : "none";
-
-        document.getElementById(
-            "pieSection"
-        ).style.display =
-            selected === "pie"
-            ? "block"
-            : "none";
-
-        document.getElementById(
-            "statsSection"
-        ).style.display =
-            selected === "stats"
-            ? "block"
-            : "none";
-
-        document.querySelector(
-            ".periods"
-        ).style.display =
-            selected === "stats"
-            ? "none"
-            : "flex";
-
-    });
-
-});
-
-
-/* ==========================================
-   PERIOD BUTTONS
-   ========================================== */
-
-const periods =
-    document.querySelectorAll(".period");
-
-periods.forEach(period => {
-
-    period.addEventListener("click", () => {
-
-        periods.forEach(p =>
-            p.classList.remove("active")
-        );
-
-        period.classList.add("active");
-
-        /*
-           In this demo the period changes
-           the visual chart history.
-        */
-
-        const selected =
-            period.dataset.period;
-
-        let multiplier = 1;
-
-        if (selected === "7d")
-            multiplier = 1.5;
-
-        if (selected === "30d")
-            multiplier = 2;
-
-        if (selected === "60d")
-            multiplier = 2.5;
-
-        if (selected === "90d")
-            multiplier = 3;
-
-        if (selected === "all")
-            multiplier = 4;
-
-        chartData =
-            chartData.map((value, index) => {
-
-                const progress =
-                    index / chartData.length;
-
-                return currentAmount *
-                    (0.7 +
-                    progress *
-                    0.3 *
-                    multiplier);
-
-            });
-
-        portfolioChart.data.datasets[0].data =
-            chartData;
-
-        portfolioChart.update();
-
-    });
-
-});
-
-
-/* ==========================================
-   DOLLAR / PERCENT TOGGLE
-   ========================================== */
-
-const dollarToggle =
-    document.getElementById("dollarToggle");
-
-const percentToggle =
-    document.getElementById("percentToggle");
-
-
-dollarToggle.addEventListener("click", () => {
-
-    dollarToggle.classList.add("active");
-    percentToggle.classList.remove("active");
-
-    document.querySelectorAll(
-        ".asset-dollar"
-    ).forEach(el => {
-
-        el.style.display = "block";
-
-    });
-
-    document.querySelectorAll(
-        ".asset-percent"
-    ).forEach(el => {
-
-        el.style.display = "none";
-
-    });
-
-});
-
-
-percentToggle.addEventListener("click", () => {
-
-    percentToggle.classList.add("active");
-    dollarToggle.classList.remove("active");
-
-    document.querySelectorAll(
-        ".asset-dollar"
-    ).forEach(el => {
-
-        el.style.display = "none";
-
-    });
-
-    document.querySelectorAll(
-        ".asset-percent"
-    ).forEach(el => {
-
-        el.style.display = "block";
-
-    });
-
-});
-
-
-/* ==========================================
-   PAUSE / RESUME
-   ========================================== */
-
-const pauseButton =
-    document.getElementById("pauseButton");
-
-
-pauseButton.addEventListener("click", () => {
-
-    isRunning = !isRunning;
-
-    if (isRunning) {
-
-        pauseButton.textContent =
-            "Pause Balance Growth";
-
-        startGrowth();
-
+    // 70% chance of gain, 30% chance of small pullback
+    const isGain = Math.random() < 0.70;
+    
+    let change;
+    if (isGain) {
+        change = (Math.random() * 0.08) + 0.01; // Gains +$0.01 to +$0.09
     } else {
-
-        pauseButton.textContent =
-            "Resume Balance Growth";
-
+        change = -((Math.random() * 0.04) + 0.01); // Pullbacks -$0.01 to -$0.05
     }
 
-});
+    currentAmount += change;
 
-
-function startGrowth() {
-
-    if (intervalId) {
-
-        clearInterval(intervalId);
-
+    // Prevent amount from dropping below baseline
+    if (currentAmount < 200.00) {
+        currentAmount = 200.00;
     }
 
-    /*
-       Same fast updating behavior as
-       your original page.
-    */
+    if (balanceVisible) {
+        balanceEl.textContent = formatMoney(currentAmount);
+    }
+    statBalanceEl.textContent = formatMoney(currentAmount);
 
-    intervalId =
-        setInterval(
-            updateBalance,
-            650
-        );
+    // Update asset values
+    document.getElementById("assetBtc").textContent = formatMoney(currentAmount * 0.412);
+    document.getElementById("assetEth").textContent = formatMoney(currentAmount * 0.306);
+    document.getElementById("assetSol").textContent = formatMoney(currentAmount * 0.187);
+    document.getElementById("assetUsdt").textContent = formatMoney(currentAmount * 0.095);
 
+    // Subtle glow flash
+    const tickClass = isGain ? "tick-up" : "tick-down";
+    balanceEl.classList.add(tickClass);
+    setTimeout(() => balanceEl.classList.remove(tickClass), 600);
+
+    // Dynamic Chart Update
+    if (portfolioChart) {
+        portfolioChart.data.datasets[0].data.push(currentAmount);
+        portfolioChart.data.labels.push("");
+        if (portfolioChart.data.datasets[0].data.length > 25) {
+            portfolioChart.data.datasets[0].data.shift();
+            portfolioChart.data.labels.shift();
+        }
+        portfolioChart.update("none");
+    }
+
+    // Schedule next update with a slight natural variation (3.5s to 5s)
+    const nextInterval = 3500 + Math.random() * 1500;
+    setTimeout(updateBalance, nextInterval);
 }
 
+/* CHARTS */
+const ctx = document.getElementById("portfolioChart").getContext("2d");
+let chartData = [];
+let chartLabels = [];
 
-/* ==========================================
-   EYE BUTTON
-   ========================================== */
+for (let i = 20; i >= 0; i--) {
+    chartLabels.push("");
+    chartData.push(200.32 - (i * 0.12));
+}
 
-let balanceVisible = true;
+const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+gradient.addColorStop(0, "rgba(66,230,107,0.25)");
+gradient.addColorStop(1, "rgba(66,230,107,0)");
 
-document
-    .getElementById("eyeButton")
-    .addEventListener("click", () => {
+const portfolioChart = new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: chartLabels,
+        datasets: [{
+            data: chartData,
+            borderColor: "#42e66b",
+            backgroundColor: gradient,
+            borderWidth: 2,
+            fill: true,
+            tension: 0.35,
+            pointRadius: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { display: false }, y: { display: false } }
+    }
+});
 
-        balanceVisible =
-            !balanceVisible;
+const pieCtx = document.getElementById("pieChart").getContext("2d");
+new Chart(pieCtx, {
+    type: "doughnut",
+    data: {
+        labels: ["Bitcoin", "Ethereum", "Solana", "USDT"],
+        datasets: [{
+            data: [41.2, 30.6, 18.7, 9.5],
+            backgroundColor: ["#f7931a", "#9b8cff", "#48e6a0", "#26a17b"],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "72%",
+        plugins: { legend: { labels: { color: "#aaa", font: { size: 11 } } } }
+    }
+});
 
-        const balance =
-            document.getElementById("balance");
-
-        if (balanceVisible) {
-
-            balance.textContent =
-                formatMoney(currentAmount);
-
-        } else {
-
-            balance.textContent =
-                "••••••";
-
-        }
-
+/* UI CONTROLS */
+const tabs = document.querySelectorAll(".chart-tab");
+tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        const sel = tab.dataset.tab;
+        document.getElementById("lineSection").style.display = sel === "line" ? "block" : "none";
+        document.getElementById("pieSection").style.display = sel === "pie" ? "block" : "none";
+        document.getElementById("statsSection").style.display = sel === "stats" ? "block" : "none";
+        document.querySelector(".periods").style.display = sel === "stats" ? "none" : "flex";
     });
+});
 
+document.getElementById("eyeButton").addEventListener("click", () => {
+    balanceVisible = !balanceVisible;
+    balanceEl.textContent = balanceVisible ? formatMoney(currentAmount) : "••••••";
+});
 
-/* ==========================================
-   START
-   ========================================== */
+document.getElementById("dollarToggle").addEventListener("click", function() {
+    this.classList.add("active");
+    document.getElementById("percentToggle").classList.remove("active");
+    document.querySelectorAll(".asset-dollar").forEach(e => e.style.display = "block");
+    document.querySelectorAll(".asset-percent").forEach(e => e.style.display = "none");
+});
 
-document.getElementById("balance")
-    .textContent =
-    formatMoney(currentAmount);
+document.getElementById("percentToggle").addEventListener("click", function() {
+    this.classList.add("active");
+    document.getElementById("dollarToggle").classList.remove("active");
+    document.querySelectorAll(".asset-dollar").forEach(e => e.style.display = "none");
+    document.querySelectorAll(".asset-percent").forEach(e => e.style.display = "block");
+});
 
-document.getElementById("statBalance")
-    .textContent =
-    formatMoney(currentAmount);
-
-startGrowth();
-
+/* START NATURAL TICKER */
+window.onload = function() {
+    setTimeout(updateBalance, 3000);
+};
 </script>
 
 </body>
