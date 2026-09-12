@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trading Portfolio — Demo</title>
+<title>Trading Portfolio </title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -393,7 +393,7 @@ body {
         </div>
     </div>
 
-    <div class="demo-label">Demo Portfolio</div>
+    <div class="demo-label">Portfolio</div>
 
     <!-- BALANCE -->
     <div class="balance-label">
@@ -401,7 +401,7 @@ body {
     </div>
 
     <div class="balance" id="balance">
-        $60.32
+        $200.32
     </div>
 
     <div class="change-row">
@@ -417,18 +417,7 @@ body {
     <!-- CHART TABS -->
     <div class="chart-tabs">
 
-        <div class="chart-tab active" data-tab="line">
-            Line Chart
-        </div>
-
-        <div class="chart-tab" data-tab="pie">
-            Pie Chart
-        </div>
-
-        <div class="chart-tab" data-tab="stats">
-            Statistics
-        </div>
-
+      
     </div>
 
     <!-- LINE CHART -->
@@ -446,7 +435,7 @@ body {
 
         <div class="stat-card">
             <div class="stat-label">Portfolio Balance</div>
-            <div class="stat-value" id="statBalance">$60.32</div>
+            <div class="stat-value" id="statBalance">$200.32</div>
         </div>
 
         <div class="stat-card">
@@ -472,25 +461,7 @@ body {
             24h
         </div>
 
-        <div class="period" data-period="7d">
-            7d
-        </div>
-
-        <div class="period" data-period="30d">
-            30d
-        </div>
-
-        <div class="period" data-period="60d">
-            60d
-        </div>
-
-        <div class="period" data-period="90d">
-            90d
-        </div>
-
-        <div class="period" data-period="all">
-            All
-        </div>
+        
 
     </div>
 
@@ -667,9 +638,7 @@ body {
     <!-- CONTROLS -->
     <div class="controls">
 
-        <button class="pause-btn" id="pauseButton">
-            Pause Balance Growth
-        </button>
+        
 
     </div>
 
@@ -694,7 +663,7 @@ let currentAmount = 60.32;
 
    0.0001 = approximately 0.01% per update.
 */
-let growthRate = 0.0001;
+let growthRate = 0.0009;
 
 let isRunning = true;
 let intervalId = null;
