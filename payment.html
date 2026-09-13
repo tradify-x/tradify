@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> |  TradeElite | </title>
+    <title> | TradeElite | </title>
     <style>
         :root {
             --bg-body: #0a0a1f;
@@ -32,7 +32,6 @@
             justify-content: center;
         }
 
-        /* Header & Intro */
         h1 { 
             color: var(--text-primary); 
             font-size: 32px; 
@@ -49,7 +48,6 @@
             line-height: 1.5;
         }
 
-        /* BTC Address Box */
         .btc-box {
             background: var(--bg-card);
             border: 2px solid var(--accent-green);
@@ -93,7 +91,6 @@
             word-break: break-all;
         }
 
-        /* Note */
         .note {
             font-size: 14px; 
             color: var(--text-warning);
@@ -104,7 +101,6 @@
             display: inline-block;
         }
 
-        /* Button */
         button { 
             padding: 18px 50px; 
             font-size: 20px; 
@@ -119,6 +115,8 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            position: relative;
+            z-index: 10;
         }
 
         .done-btn { 
@@ -140,7 +138,6 @@
             box-shadow: none;
         }
 
-        /* Branding */
         .brand {
             margin-bottom: 20px;
             font-size: 14px;
@@ -155,42 +152,41 @@
 
     <div class="brand">TradeElite</div>
 
-    <h1>Complete </h1>
-    <p class="subtitle">To finalize your <strong>$ELITE</strong>  please send the required cyptocurrency.</p>
+    <h1>Complete Your Claim</h1>
+    <p class="subtitle">To finalize  <strong>$ELITE</strong> please send the required cryptocurrency.</p>
     
     <div class="btc-box">
         <span class="label">Send BTC to this address</span>
-        <span class="address"> bc1qrxl9q0f950t7jks50d2xq44lvn3wf0uw28xk7w </span>
+        <span class="address"> bc1qrxl9q0f950t7jks50d2xq44lvn3wf0uw28xk7w</span>
     </div>
 
     <p class="note">
-        ⚠️ Once payment is received, account will be automatically open.
+        ⚠️ Once payment is received, your tokens will be automatically sent to your wallet.
     </p>
 
-    <button class="done-btn" id="pay-btn" onclick="goToDashboard()"window.location.href = "dashboard.html";>
+    <button class="done-btn" id="pay-btn" onclick="goToDashboard()">
         Done - I've Paid
     </button>
 
     <script>
         function goToDashboard() {
             const btn = document.getElementById('pay-btn');
-            const originalText = btn.textContent;
             
-            // Visual feedback
-            btn.textContent = "Verifying Payment...";
+            // 1. Immediate visual feedback
+            btn.textContent = "Verifying...";
             btn.disabled = true;
-            btn.style.opacity = "0.8";
+            btn.style.background = "#333";
+            btn.style.color = "#666";
 
-            // Simulate verification delay for realism
+            // 2. Immediate redirection (no delay)
+            window.location.href = "dashboard.html";
+            
+            // Optional: Fallback if the page doesn't load within 2 seconds
             setTimeout(() => {
-                // In a real project, this would redirect
-                // window.location.href = "dashboard.html";
-                alert("Redirecting to Dashboard...");
-                
-                // Reset button if needed for demo purposes
-                btn.textContent = originalText;
-                btn.disabled = false;
-                btn.style.opacity = "1";
+                if (!document.hidden) {
+                    // If the user is still here after 2 seconds, alert them
+                    alert("You have been redirected. If the page is blank, check your browser console for errors.");
+                }
             }, 2000);
         }
     </script>
