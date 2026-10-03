@@ -394,7 +394,7 @@ body {
                     <div class="tx-type">Trading Yield</div>
                     <div class="tx-date">Today, 10:42 AM</div>
                 </div>
-                <div class="tx-amount green">+$584.10</div>
+                <div class="tx-amount green">+$853.10</div>
             </div>
             <div class="tx-item">
                 <div>
@@ -455,7 +455,7 @@ body {
     <div class="demo-label">Portfolio</div>
 
     <div class="balance-label">Current Balance</div>
-    <div class="balance" id="balance">$584.10</div>
+    <div class="balance" id="balance">$853.10</div>
 
     <div class="change-row">
         <div class="change" id="dailyChange">+6.4% today</div>
@@ -483,7 +483,7 @@ body {
     <div class="statistics" id="statsSection">
         <div class="stat-card">
             <div class="stat-label">Portfolio Balance</div>
-            <div class="stat-value" id="statBalance">$584.10</div>
+            <div class="stat-value" id="statBalance">$853.10</div>
         </div>
         <div class="stat-card">
             <div class="stat-label">Today's Change</div>
@@ -618,7 +618,7 @@ function copyAddress(id, btn) {
 }
 
 /* REALISTIC SLOW TWO-WAY TICKER ENGINE */
-let currentAmount = 584.10;
+let currentAmount = 853.10;
 let balanceVisible = true;
 const balanceEl = document.getElementById("balance");
 const statBalanceEl = document.getElementById("statBalance");
@@ -641,8 +641,8 @@ function updateBalance() {
     currentAmount += change;
 
     // Prevent amount from dropping below baseline
-    if (currentAmount < 600.00) {
-        currentAmount = 600.00;
+    if (currentAmount < 853.10) {
+        currentAmount = 853.10;
     }
 
     if (balanceVisible) {
