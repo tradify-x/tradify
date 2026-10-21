@@ -483,7 +483,7 @@ body {
     <div class="statistics" id="statsSection">
         <div class="stat-card">
             <div class="stat-label">Portfolio Balance</div>
-            <div class="stat-value" id="statBalance">$0.00</div>
+            <div class="stat-value" id="statBalance">$895.56</div>
         </div>
         <div class="stat-card">
             <div class="stat-label">Today's Change</div>
@@ -628,8 +628,8 @@ function formatMoney(val) {
 }
 
 function updateBalance() {
-    // Balance is locked at $0.00 – no changes
-    currentAmount = 0;
+    // Balance is locked at $895.56 – no changes
+    currentAmount = 895.56;
 
     if (balanceVisible) {
         balanceEl.textContent = formatMoney(currentAmount);
